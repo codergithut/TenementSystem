@@ -1,0 +1,16 @@
+spring:
+  thymeleaf:
+    cache: false
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:hsqldb:file:~/.h2/testdb
+    username: sa
+    password: sa
+    driverClassName: org.hsqldb.jdbcDriver
+debug: true
+logging:
+  level:
+    org.springframework.security: INFO

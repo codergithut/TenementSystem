@@ -1,0 +1,26 @@
+预先设计表结构
+
+tenant（租户表信息）
+TENANT_ID（数据ID）    NAME（姓名）    IDENTITY（身份证ID）
+SEX（性别)    AGE（年龄）
+
+admin （管理员表 用于登陆，就一个人用不用权限系统）
+ADMIN_ID （数据ID）   USERNAME（用户名）   PASSWORD（密码）
+
+contract （合同表 存放的基础合同信息）
+CONTRACT_ID（数据ID）    CONTENT（合同基本条款）
+CREATE_TIME（合同拟定时间）
+
+houses（房屋信息）
+HOUSES_ID（数据ID）    HOUSENUMBER（房屋编号）
+HOUSEADDRESS（房屋地址)     TENANT_ID（承租人编号)
+CONTRACT_ID（合同编号）
+
+strategy（策略表）
+STRATEGY_ID（数据ID）    RENEWAL(续租)
+RENTPROMOTION（催租时间）
+
+orderflow（订单流水）
+SERIAL_NUMBER(订单流水号)    ELECTRICITY_FEES（电费）
+WATER_FEES（水费）      RENT（房租）    CREATE_TIME（创建时间）
+
