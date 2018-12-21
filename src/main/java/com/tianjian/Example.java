@@ -48,24 +48,4 @@ public class Example implements WebMvcConfigurer {
         new SpringApplicationBuilder(Example.class).run(args);
     }
 
-    @Configuration
-    protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests().antMatchers("/css/**").permitAll().anyRequest()
-                    .fullyAuthenticated().and().formLogin().loginPage("/login")
-                    .failureUrl("/login?error").permitAll().and().logout().permitAll();
-        }
-
-        @Bean
-        public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
-            JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
-            jdbcUserDetailsManager.setDataSource(dataSource);
-            return jdbcUserDetailsManager;
-        }
-
-    }
-
-
 }
