@@ -41,8 +41,8 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 		String username = null, password = null;
 		if(StringUtils.hasText(body)) {
 		    JSONObject jsonObj = JSON.parseObject(body);
-		    username = jsonObj.getString("username");
-		    password = jsonObj.getString("password");
+		    username = jsonObj.getString("name");
+		    password = jsonObj.getString("pwd");
 		}	
 		
 		if (username == null) 
@@ -55,15 +55,6 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 				username, password);
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
-	}
-
-	public static void main(String[] args) {
-		Map<String,String> params = new HashMap<String,String>();
-		params.put("username", "Jack");
-		params.put("password", "jack-password");
-		JSONObject jsonObject = JSON.parseObject("{\"username\":\"Jack\",\"password\":\"jack-password\"}");
-		System.out.println(JSON.toJSONString(params));
-
 	}
 
  }

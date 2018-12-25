@@ -2,9 +2,11 @@ package com.tianjian.security.config;
 
 import java.util.Arrays;
 
+import com.tianjian.data.impl.UserDao;
 import com.tianjian.security.handler.JsonLoginSuccessHandler;
 import com.tianjian.security.handler.JwtRefreshSuccessHandler;
 import com.tianjian.security.handler.TokenClearLogoutHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -29,9 +31,25 @@ import com.tianjian.security.service.JwtUserService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
+	@Autowired
+	private JwtUserService jwtUserService;
+
+	@Autowired
+	TokenClearLogoutHandler tokenClearLogoutHandler;
+
+	@Autowired
+	JsonLoginSuccessHandler jsonLoginSuccessHandler;
+
+	@Autowired
+	JwtRefreshSuccessHandler jwtRefreshSuccessHandler;
+
+	@Autowired
+	JwtAuthenticationProvider jwtAuthenticationProvider;
+
+
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		        .antMatchers("/image/**").permitAll()
+		        .antMatchers("/image/**","/user/register").permitAll()
 		        .antMatchers("/admin/**").hasAnyRole("ADMIN")
 		        .antMatchers("/article/**").hasRole("USER")
 		        .anyRequest().authenticated()
@@ -46,13 +64,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		    		new Header("Access-Control-Expose-Headers","Authorization"))))
 		    .and()
 		    .addFilterAfter(new OptionsRequestFilter(), CorsFilter.class)
-		    .apply(new JsonLoginConfigurer<>()).loginSuccessHandler(jsonLoginSuccessHandler())
+		    .apply(new JsonLoginConfigurer<>()).loginSuccessHandler(jsonLoginSuccessHandler)
 		    .and()
-		    .apply(new JwtLoginConfigurer<>()).tokenValidSuccessHandler(jwtRefreshSuccessHandler()).permissiveRequestUrls("/logout")
+		    .apply(new JwtLoginConfigurer<>()).tokenValidSuccessHandler(jwtRefreshSuccessHandler)
+				.permissiveRequestUrls("/logout")
 		    .and()
 		    .logout()
 //		        .logoutUrl("/logout")   //默认就是"/logout"
-		        .addLogoutHandler(tokenClearLogoutHandler())
+		        .addLogoutHandler(tokenClearLogoutHandler)
 		        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
 		    .and()
 		    .sessionManagement().disable();
@@ -60,52 +79,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(daoAuthenticationProvider()).authenticationProvider(jwtAuthenticationProvider());
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setUserDetailsService(jwtUserService);
+		auth.authenticationProvider(daoAuthenticationProvider).authenticationProvider(jwtAuthenticationProvider);
 	}
 	
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 	    return super.authenticationManagerBean();
 	}
-	
-	@Bean("jwtAuthenticationProvider")
-	protected AuthenticationProvider jwtAuthenticationProvider() {
-		return new JwtAuthenticationProvider(jwtUserService());
-	}
-	
-	@Bean("daoAuthenticationProvider")
-	protected AuthenticationProvider daoAuthenticationProvider() throws Exception{
-		//这里会默认使用BCryptPasswordEncoder比对加密后的密码，注意要跟createUser时保持一致
-		DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
-		daoProvider.setUserDetailsService(userDetailsService());
-		return daoProvider;
-	}
 
-	@Override
-	protected UserDetailsService userDetailsService() {
-		return new JwtUserService();
-	}
-	
-	@Bean("jwtUserService")
-	protected JwtUserService jwtUserService() {
-		return new JwtUserService();
-	}
-	
-	@Bean
-	protected JsonLoginSuccessHandler jsonLoginSuccessHandler() {
-		return new JsonLoginSuccessHandler(jwtUserService());
-	}
-	
-	@Bean
-	protected JwtRefreshSuccessHandler jwtRefreshSuccessHandler() {
-		return new JwtRefreshSuccessHandler(jwtUserService());
-	}
-	
-	@Bean
-	protected TokenClearLogoutHandler tokenClearLogoutHandler() {
-		return new TokenClearLogoutHandler(jwtUserService());
-	}
-	
+
+
 	@Bean
 	protected CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();

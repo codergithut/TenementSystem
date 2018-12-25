@@ -2,6 +2,7 @@ package com.tianjian.security.service;
 
 import java.util.Calendar;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -14,14 +15,14 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.tianjian.security.bean.JwtAuthenticationToken;
+import org.springframework.stereotype.Service;
 
+@Service
 public class JwtAuthenticationProvider implements AuthenticationProvider{
-	
+
+
+	@Autowired
 	private JwtUserService userService;
-	
-	public JwtAuthenticationProvider(JwtUserService userService) {
-		this.userService = userService;
-	}
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {

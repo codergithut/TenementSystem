@@ -24,7 +24,7 @@ import java.util.Map;
 @SpringBootApplication
 @EnableScheduling
 @Controller
-public class Example implements WebMvcConfigurer {
+public class Example{
 
     @GetMapping("/")
     public String home(Map<String, Object> model) {
@@ -37,11 +37,6 @@ public class Example implements WebMvcConfigurer {
     @RequestMapping("/foo")
     public String foo() {
         throw new RuntimeException("Expected exception in controller");
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
     }
 
     public static void main(String[] args) {

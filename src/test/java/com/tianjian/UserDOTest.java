@@ -1,6 +1,7 @@
 package com.tianjian;
 
-import com.tianjian.bean.UserDO;
+import com.alibaba.fastjson.JSONObject;
+import com.tianjian.model.bean.UserDO;
 import com.tianjian.data.impl.UserDao;
 import org.junit.After;
 import org.junit.Before;
@@ -26,22 +27,24 @@ public class UserDOTest {
     @Before
     public void before() {
         UserDO userDO = new UserDO();
-        userDO.setId(1L);
+        userDO.setId("ss");
         userDO.setName("风清扬");
         userDO.setAccount("fengqy");
         userDO.setPwd("123456");
         userDao.save(userDO);
         userDO = new UserDO();
-        userDO.setId(3L);
+        userDO.setId("221");
         userDO.setName("东方不败");
         userDO.setAccount("bubai");
         userDO.setPwd("123456");
         userDao.save(userDO);
-        userDO.setId(5L);
+        userDO.setId("333s");
         userDO.setName("向问天");
         userDO.setAccount("wentian");
         userDO.setPwd("123456");
         userDao.save(userDO);
+
+        System.out.println(JSONObject.toJSONString(userDO));
     }
     @Test
     public void testAdd() {

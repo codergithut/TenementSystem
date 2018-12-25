@@ -1,4 +1,4 @@
-package com.tianjian.bean;
+package com.tianjian.model.bean;
 
 import java.util.Date;
 

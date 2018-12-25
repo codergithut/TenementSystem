@@ -10,22 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.tianjian.security.bean.JwtAuthenticationToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.tianjian.security.service.JwtUserService;
+import org.springframework.stereotype.Service;
 
+
+@Service
 public class JwtRefreshSuccessHandler implements AuthenticationSuccessHandler{
 	
 	private static final int tokenRefreshInterval = 300;  //刷新间隔5分钟
-	
+
+	@Autowired
 	private JwtUserService jwtUserService;
-	
-	public JwtRefreshSuccessHandler(JwtUserService jwtUserService) {
-		this.jwtUserService = jwtUserService;
-	}
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

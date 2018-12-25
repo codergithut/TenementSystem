@@ -1,4 +1,4 @@
-package com.tianjian.bean;
+package com.tianjian.model.bean;
 
 /**
  * Created by tianjian on 2018/11/29.

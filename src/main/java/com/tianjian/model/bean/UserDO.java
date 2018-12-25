@@ -1,13 +1,10 @@
-package com.tianjian.bean;
+package com.tianjian.model.bean;
 
 /**
  * Created by tianjian on 2018/11/29.
  */
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 用户实体类
@@ -19,7 +16,8 @@ import javax.persistence.Table;
 @Table(name = "AUTH_USER")
 public class UserDO {
     @Id
-    private Long id;
+    @Column(length = 100)
+    private String id;
     @Column(length = 32)
     private String name;
     @Column(length = 32)
@@ -27,11 +25,11 @@ public class UserDO {
     @Column(length = 64)
     private String pwd;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
