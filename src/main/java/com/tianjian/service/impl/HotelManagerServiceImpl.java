@@ -1,7 +1,9 @@
 package com.tianjian.service.impl;
 
 import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.service.HotelCurd;
+import com.tianjian.data.service.HotelRelationUserCurd;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.ServiceEnum;
@@ -20,6 +22,9 @@ public class HotelManagerServiceImpl implements HotelManagerService {
 
     @Autowired
     HotelCurd hotelCurd;
+
+    @Autowired
+    HotelRelationUserCurd hotelRelationUserCurd;
 
     @Override
     public ServiceMessage<List<HotelDO>> findHotelDO(HotelDO hotelDO) {
@@ -53,5 +58,18 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     public ServiceMessage deleteHotelDO(String hotelId) {
         hotelCurd.deleteById(hotelId);
         return new ServiceMessage(ServiceEnum.SUCCESS,  null);
+    }
+
+    @Override
+    public ServiceMessage<List<HotelDO>> getHotelByUserIds(String userId) {
+        List<String> hotelIds = new ArrayList<String>();
+        List<HotelRelationUser> relationUsers = hotelRelationUserCurd.findByUserId(userId);
+        if(relationUsers != null && relationUsers.size() >0) {
+            relationUsers.forEach(t -> {
+                hotelIds.add(t.getHotelId());
+            });
+            return new ServiceMessage<>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds));
+        }
+        return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
     }
 }

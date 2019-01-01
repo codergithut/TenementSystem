@@ -2,7 +2,10 @@ package com.tianjian.data.service;
 
 import com.tianjian.data.bean.HotelDO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by tianjian on 2018/11/29.
@@ -11,4 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HotelCurd
         extends JpaRepository<HotelDO, String> {
+    @Query("select from HotelDO s where s.hotelId in ?1")
+    List<HotelDO> getHotelByIds(List<String> ids);
 }

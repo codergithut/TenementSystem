@@ -32,4 +32,7 @@ public interface HotelManagerService {
      */
     ServiceMessage deleteHotelDO(String hotelId);
 
+
+    ServiceMessage<List<HotelDO>> getHotelByUserIds(String userId);
+
 }
