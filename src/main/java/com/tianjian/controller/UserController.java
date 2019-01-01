@@ -1,35 +1,55 @@
 package com.tianjian.controller;
 
-import com.tianjian.data.impl.UserDao;
-import com.tianjian.model.bean.UserDO;
-import com.tianjian.model.front.ResponseData;
+import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.bean.UserDO;
+import com.tianjian.model.view.ResponseData;
+import com.tianjian.model.ServiceMessage;
+import com.tianjian.service.HotelManagerService;
+import com.tianjian.service.UserManagerService;
+import com.tianjian.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.List;
 
 /**
  * Created by tianjian on 2018/12/23.
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
-    private UserDao userDao;
+    private UserManagerService userManagerService;
+
+    @Autowired
+    private HotelManagerService hotelManagerService;
 
     @PostMapping("/register")
-    public ResponseData<String> registerUser(UserDO userDO) {
+    public ResponseData<Boolean> registerUser(@RequestBody UserDO userDO) throws Exception {
+        ResponseData<Boolean> responseData = new ResponseData<Boolean>();
+        userDO.setUserId(UUIDUtil.getPreUUID("USER"));
+        ServiceMessage<Boolean> data = userManagerService.registerUser(userDO);
+        return responseData.buildResponseDataByCode(data);
+    }
+
+    @PostMapping("/unregister")
+    public ResponseData<Boolean> unRegisterUser(@RequestBody UserDO userDO) throws Exception {
+        ResponseData<Boolean> responseData = new ResponseData<Boolean>();
+        ServiceMessage<Boolean> data = userManagerService.unRegisterUser(userDO);
+        return responseData.buildResponseDataByCode(data);
+    }
+
+
+    @GetMapping("/getAllUser")
+    public ResponseData<List<UserDO>> getAllUser() {
+        ResponseData<List<UserDO>> responseData = new ResponseData<>();
+        return responseData.buildResponseDataByCode(userManagerService.findUserDO());
+    }
+
+    @PostMapping("/login")
+    public ResponseData<String> login(@RequestBody UserDO userDO) {
         ResponseData<String> responseData = new ResponseData<>();
-        userDO.setId(UUID.randomUUID().toString());
-        UserDO userDo = userDao.save(userDO);
-        if(userDo != null) {
-            return responseData.buidSuccessResponseData("register user success", null);
-        } else {
-            return responseData.buildFailResponseData("regisiter user fail", 0);
-        }
+        return null;
     }
 }

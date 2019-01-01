@@ -2,8 +2,8 @@ package com.tianjian.security.service;
 
 import java.util.Date;
 
-import com.tianjian.model.bean.UserDO;
-import com.tianjian.data.impl.UserDao;
+import com.tianjian.data.bean.UserDO;
+import com.tianjian.data.service.UserCurd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +23,7 @@ public class JwtUserService implements UserDetailsService{
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private UserDao userDao;
+	private UserCurd userDao;
 	
 	public JwtUserService() {
 		this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();  //默认使用 bcrypt， strength=10 
@@ -57,9 +57,11 @@ public class JwtUserService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserDO userDO = userDao.findByName(username);
-		System.out.println("Name:" + userDO.getName() + ",PWD:" + userDO.getPwd());
-		return User.builder().username(userDO.getName()).password(passwordEncoder.encode(userDO.getPwd())).roles("USER").build();
+		UserDO userDO = userDao.findByAccount(username);
+		System.out.println("Name:" + userDO.getAccount() + ",PWD:" + userDO.getPassword());
+		return User.builder().username(userDO.getAccount())
+				.password(passwordEncoder.encode(userDO.getPassword()))
+				.roles(userDO.getRole()).build();
 	}
 	
 	public void createUser(String username, String password) {

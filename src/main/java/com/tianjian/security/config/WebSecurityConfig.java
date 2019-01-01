@@ -2,20 +2,17 @@ package com.tianjian.security.config;
 
 import java.util.Arrays;
 
-import com.tianjian.data.impl.UserDao;
 import com.tianjian.security.handler.JsonLoginSuccessHandler;
 import com.tianjian.security.handler.JwtRefreshSuccessHandler;
 import com.tianjian.security.handler.TokenClearLogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.header.Header;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
@@ -49,9 +46,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		        .antMatchers("/image/**","/user/register").permitAll()
-		        .antMatchers("/admin/**").hasAnyRole("ADMIN")
-		        .antMatchers("/article/**").hasRole("USER")
+		        .antMatchers("/image/**", "/api/**").permitAll()
+//				.antMatchers("/api/search/**").hasAnyRole("ADMIN", "USER", "MANAGE")
+//		        .antMatchers("/api/edit/**").hasRole("MANAGE")
+//				.antMatchers("/api/assigna/authority").hasAnyRole("ADMIN")
 		        .anyRequest().authenticated()
 		        .and()
 		    .csrf().disable()
