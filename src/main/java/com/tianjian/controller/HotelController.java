@@ -29,10 +29,16 @@ public class HotelController {
     }
 
 
-    @PostMapping("/saveorupdate")
+    @PostMapping("/edit")
     public ResponseData<HotelDO> saveOrUpdate(@RequestBody HotelDO hotelDO) {
         ResponseData<HotelDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelManagerService.saveHotelDO(hotelDO));
+    }
+
+    @PostMapping("/delete")
+    public ResponseData deleteHotel(String hotelId) {
+        ResponseData<HotelDO> responseData = new ResponseData<>();
+        return responseData.buildResponseDataByCode(hotelManagerService.deleteHotelDO(hotelId));
     }
 
 }

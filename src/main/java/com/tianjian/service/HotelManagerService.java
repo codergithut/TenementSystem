@@ -24,4 +24,12 @@ public interface HotelManagerService {
      */
     ServiceMessage<HotelDO> saveHotelDO(HotelDO hotelDO);
 
+
+    /**
+     * 删除酒店信息
+     * @param hotelId
+     * @return
+     */
+    ServiceMessage deleteHotelDO(String hotelId);
+
 }

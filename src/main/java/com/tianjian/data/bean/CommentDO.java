@@ -9,7 +9,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "COMMENT")
-public class CommentDo {
+public class CommentDO {
 
     /**
      * 评论ID

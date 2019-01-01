@@ -1,6 +1,6 @@
 package com.tianjian.data.service;
 
-import com.tianjian.data.bean.HotelRelationUser;
+import com.tianjian.data.bean.CommentDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CommentCurd
-        extends JpaRepository<HotelRelationUser, String> {
+        extends JpaRepository<CommentDO, String> {
 }

@@ -1,14 +1,20 @@
 package com.tianjian.service.impl;
 
+import com.tianjian.data.bean.CommentDO;
 import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.service.CommentCurd;
 import com.tianjian.data.service.HotelCurd;
 import com.tianjian.model.ServiceMessage;
+import com.tianjian.service.CommentManagerService;
 import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.ServiceEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,19 +22,17 @@ import java.util.List;
  * Created by tianjian on 2019/1/1.
  */
 @Service
-public class HotelManagerServiceImpl implements HotelManagerService {
+public class CommentManagerServiceImpl implements CommentManagerService {
 
     @Autowired
-    HotelCurd hotelCurd;
+    CommentCurd commentCurd;
 
     @Override
-    public ServiceMessage<List<HotelDO>> findHotelDO(HotelDO hotelDO) {
-        List<HotelDO> datas = new ArrayList<>();
-        if(hotelDO != null && StringUtils.isNoneBlank(hotelDO.getHotelId())) {
-            datas.add(hotelCurd.findById(hotelDO.getHotelId()).get());
-        } else {
-            datas = hotelCurd.findAll();
-        }
+    public ServiceMessage<List<CommentDO>> findCommentDO(CommentDO commentDO) {
+        List<CommentDO> datas = new ArrayList<>();
+
+        Example<CommentDO> example = Example.of(commentDO);
+        datas.addAll(commentCurd.findAll(example));
 
         if(datas.size() > 0) {
             return new ServiceMessage(ServiceEnum.SUCCESS, datas);
@@ -39,8 +43,8 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     }
 
     @Override
-    public ServiceMessage<HotelDO> saveHotelDO(HotelDO hotelDO) {
-        HotelDO save = hotelCurd.save(hotelDO);
+    public ServiceMessage<CommentDO> saveCommentDO(CommentDO commentDO) {
+        CommentDO save = commentCurd.save(commentDO);
         if(save != null) {
             return new ServiceMessage(ServiceEnum.SUCCESS,  save);
         } else {
@@ -50,8 +54,8 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     }
 
     @Override
-    public ServiceMessage deleteHotelDO(String hotelId) {
-        hotelCurd.deleteById(hotelId);
+    public ServiceMessage deleteCommentDO(String commentId) {
+        commentCurd.deleteById(commentId);
         return new ServiceMessage(ServiceEnum.SUCCESS,  null);
     }
 }
