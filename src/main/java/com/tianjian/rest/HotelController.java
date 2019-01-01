@@ -1,4 +1,4 @@
-package com.tianjian.controller;
+package com.tianjian.rest;
 
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.UserDO;
@@ -29,14 +29,14 @@ public class HotelController {
     }
 
 
-    @PostMapping("/edit")
+    @PostMapping("/save")
     public ResponseData<HotelDO> saveOrUpdate(@RequestBody HotelDO hotelDO) {
         ResponseData<HotelDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelManagerService.saveHotelDO(hotelDO));
     }
 
     @PostMapping("/delete")
-    public ResponseData deleteHotel(String hotelId) {
+    public ResponseData deleteHotel(@RequestBody String hotelId) {
         ResponseData<HotelDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelManagerService.deleteHotelDO(hotelId));
     }

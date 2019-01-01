@@ -1,8 +1,11 @@
 package com.tianjian;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tianjian.data.bean.CommentDO;
 import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
+import com.tianjian.data.service.CommentCurd;
 import com.tianjian.data.service.HotelCurd;
 import com.tianjian.data.service.UserCurd;
 import com.tianjian.util.UUIDUtil;
@@ -31,6 +34,9 @@ public class CurdDoTest {
     @Autowired
     private HotelCurd hotelDao;
 
+    @Autowired
+    CommentCurd commentCurd;
+
     @Before
     public void before() {
         UserDO userDO = new UserDO();
@@ -52,14 +58,19 @@ public class CurdDoTest {
     }
     @Test
     public void testAdd() {
-        List<UserDO> userDOList = userDao.findAll();
-        for(UserDO userDO : userDOList) {
-            System.out.println(userDO.getAccount());
-        }
+//        List<UserDO> userDOList = userDao.findAll();
+//        for(UserDO userDO : userDOList) {
+//            System.out.println(userDO.getAccount());
+//        }
+//
+//        List<HotelDO> hotelDOS = hotelDao.findAll();
+//        for(HotelDO hotelDO : hotelDOS) {
+//            System.out.println(hotelDO.getName());
+//        }
 
-        List<HotelDO> hotelDOS = hotelDao.findAll();
-        for(HotelDO hotelDO : hotelDOS) {
-            System.out.println(hotelDO.getName());
+        List<CommentDO> commentDOS = commentCurd.findAll();
+        for(CommentDO hotelDO : commentDOS) {
+            System.out.println(hotelDO.getUserId());
         }
     }
 
@@ -71,25 +82,5 @@ public class CurdDoTest {
     }
 
 
-    @Test
-    public void  registerUser() throws Exception {
-        UserDO userDO = new UserDO();
-        userDO.setRole("USER");
-        userDO.setPassword("123456");
-        userDO.setEmail("1468198882@qq.com");
-        userDO.setAccount("tianjian");
-        userDO.setUserId(UUIDUtil.getPreUUID("USER"));
-        System.out.println(JSONObject.toJSONString(userDO));
-        System.out.println("-------------------------------");
-
-        HotelDO hotelDO = new HotelDO();
-        hotelDO.setName("牛逼哄哄的酒店");
-        hotelDO.setLocation("SH");
-        hotelDO.setImg("SSSS");
-        hotelDO.setHotelId(UUIDUtil.getPreUUID("HOTEL"));
-        hotelDO.setAlias("牛逼哄哄的酒店不需要别名");
-        hotelDO.setContent("我是测试数据不要在意");
-        System.out.println(JSONObject.toJSONString(hotelDO));
-    }
 
 }

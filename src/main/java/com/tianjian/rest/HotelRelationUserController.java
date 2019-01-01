@@ -1,4 +1,4 @@
-package com.tianjian.controller;
+package com.tianjian.rest;
 
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.HotelRelationUser;
@@ -29,7 +29,7 @@ public class HotelRelationUserController {
     }
 
     @PostMapping("/delete")
-    public ResponseData deleteHotel(String relationId) {
+    public ResponseData deleteHotel(@RequestBody  String relationId) {
         ResponseData<HotelDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelRelationUserManagerService.deleteHotelRelationUser(relationId));
     }

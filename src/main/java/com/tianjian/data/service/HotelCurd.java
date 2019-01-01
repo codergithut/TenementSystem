@@ -14,6 +14,6 @@ import java.util.List;
 @Repository
 public interface HotelCurd
         extends JpaRepository<HotelDO, String> {
-    @Query("select from HotelDO s where s.hotelId in ?1")
+    @Query(value = "select * from HOTEL s where s.hotelId in ?1", nativeQuery = true)
     List<HotelDO> getHotelByIds(List<String> ids);
 }

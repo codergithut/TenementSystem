@@ -1,4 +1,4 @@
-package com.tianjian.controller;
+package com.tianjian.rest;
 
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.UserDO;
@@ -41,7 +41,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/getAllUser")
+    @PostMapping("/getAllUser")
     public ResponseData<List<UserDO>> getAllUser() {
         ResponseData<List<UserDO>> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(userManagerService.findUserDO());

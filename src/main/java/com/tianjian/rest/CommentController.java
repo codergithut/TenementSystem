@@ -1,4 +1,4 @@
-package com.tianjian.controller;
+package com.tianjian.rest;
 
 import com.tianjian.data.bean.CommentDO;
 import com.tianjian.data.bean.UserDO;
@@ -39,7 +39,7 @@ public class CommentController {
     }
 
     @PostMapping("/delete")
-    public ResponseData deleteComment(String commentId) throws Exception {
+    public ResponseData deleteComment(@RequestBody String commentId) throws Exception {
         ResponseData responseData = new ResponseData<>();
         ServiceMessage<List<CommentDO>> data = commentManagerService.deleteCommentDO(commentId);
         return responseData.buildResponseDataByCode(data);
