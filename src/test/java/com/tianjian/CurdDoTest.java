@@ -58,15 +58,6 @@ public class CurdDoTest {
     }
     @Test
     public void testAdd() {
-//        List<UserDO> userDOList = userDao.findAll();
-//        for(UserDO userDO : userDOList) {
-//            System.out.println(userDO.getAccount());
-//        }
-//
-//        List<HotelDO> hotelDOS = hotelDao.findAll();
-//        for(HotelDO hotelDO : hotelDOS) {
-//            System.out.println(hotelDO.getName());
-//        }
 
         List<CommentDO> commentDOS = commentCurd.findAll();
         for(CommentDO hotelDO : commentDOS) {

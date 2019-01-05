@@ -1,5 +1,6 @@
 package com.tianjian.rest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.UserDO;
 import com.tianjian.data.service.UserCurd;
@@ -51,6 +52,16 @@ public class UserController {
     public ResponseData<String> login(@RequestBody UserDO userDO) {
         ResponseData<String> responseData = new ResponseData<>();
         return null;
+    }
+
+    public static void main(String[] args) {
+        UserDO userDO = new UserDO();
+        userDO.setRole("USER");
+        userDO.setAccount("tianjian");
+        userDO.setUserId("test");
+        userDO.setEmail("14sdfasdf@qq.com");
+        userDO.setPassword("hahah");
+        System.out.println(JSONObject.toJSONString(userDO));
     }
 
 }

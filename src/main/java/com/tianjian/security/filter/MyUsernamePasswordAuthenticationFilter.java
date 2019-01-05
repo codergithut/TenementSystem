@@ -41,8 +41,8 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 		String username = null, password = null;
 		if(StringUtils.hasText(body)) {
 		    JSONObject jsonObj = JSON.parseObject(body);
-		    username = jsonObj.getString("name");
-		    password = jsonObj.getString("pwd");
+		    username = jsonObj.getString("accout");
+		    password = jsonObj.getString("password");
 		}	
 		
 		if (username == null) 
