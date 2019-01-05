@@ -6,10 +6,9 @@ import com.tianjian.data.service.HotelRelationUserCurd;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.service.HotelRelationUserManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by tianjian on 2019/1/1.
@@ -32,6 +31,15 @@ public class HotelRelationUserController {
     public ResponseData deleteHotel(@RequestBody  String relationId) {
         ResponseData<HotelDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelRelationUserManagerService.deleteHotelRelationUser(relationId));
+    }
+
+    @Autowired
+    HotelRelationUserCurd hotelRelationUserCurd;
+
+    //todo delete test
+    @GetMapping("/findAll")
+    public List<HotelRelationUser> findAll() {
+        return hotelRelationUserCurd.findAll();
     }
 
 }

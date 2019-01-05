@@ -2,6 +2,7 @@ package com.tianjian.rest;
 
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.UserDO;
+import com.tianjian.data.service.HotelCurd;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.service.HotelManagerService;
@@ -21,6 +22,9 @@ public class HotelController {
 
     @Autowired
     private HotelManagerService hotelManagerService;
+
+    @Autowired
+    private HotelCurd hotelCurd;
 
     @PostMapping("/search")
     public ResponseData<List<HotelDO>> searchHotel(@RequestBody HotelDO hotelDO) throws Exception {
@@ -45,6 +49,13 @@ public class HotelController {
     public ResponseData<List<HotelDO>> searchByUserId(String userId) {
         ResponseData<List<HotelDO>> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelManagerService.getHotelByUserIds(userId));
+    }
+
+
+    //todo delete test
+    @GetMapping("/findALL")
+    public List<HotelDO> findAllHotel() {
+        return hotelCurd.findAll();
     }
 
 }

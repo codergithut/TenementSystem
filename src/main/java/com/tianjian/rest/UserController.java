@@ -2,6 +2,7 @@ package com.tianjian.rest;
 
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.UserDO;
+import com.tianjian.data.service.UserCurd;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.HotelManagerService;
@@ -52,4 +53,5 @@ public class UserController {
         ResponseData<String> responseData = new ResponseData<>();
         return null;
     }
+
 }

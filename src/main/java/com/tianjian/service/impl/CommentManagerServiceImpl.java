@@ -30,10 +30,9 @@ public class CommentManagerServiceImpl implements CommentManagerService {
     @Override
     public ServiceMessage<List<CommentDO>> findCommentDO(CommentDO commentDO) {
         List<CommentDO> datas = new ArrayList<>();
-
         Example<CommentDO> example = Example.of(commentDO);
-        datas.addAll(commentCurd.findAll(example));
-
+        List<CommentDO> all = commentCurd.findAll(example);
+        datas.addAll(all);
         if(datas.size() > 0) {
             return new ServiceMessage(ServiceEnum.SUCCESS, datas);
         } else {
