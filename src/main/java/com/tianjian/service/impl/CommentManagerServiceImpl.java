@@ -8,6 +8,7 @@ import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.CommentManagerService;
 import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.ServiceEnum;
+import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -42,7 +43,10 @@ public class CommentManagerServiceImpl implements CommentManagerService {
     }
 
     @Override
-    public ServiceMessage<CommentDO> saveCommentDO(CommentDO commentDO) {
+    public ServiceMessage<CommentDO> saveCommentDO(CommentDO commentDO) throws Exception {
+        if(StringUtils.isBlank(commentDO.getCommentId())) {
+            commentDO.setCommentId(UUIDUtil.getPreUUID("comment"));
+        }
         CommentDO save = commentCurd.save(commentDO);
         if(save != null) {
             return new ServiceMessage(ServiceEnum.SUCCESS,  save);

@@ -29,9 +29,6 @@ public class CommentController {
 
     @PostMapping("/edit")
     public ResponseData<CommentDO> saveComment(@RequestBody CommentDO commentDO) throws Exception {
-        if(StringUtils.isBlank(commentDO.getCommentId())) {
-            commentDO.setCommentId(UUIDUtil.getPreUUID("COMMIT"));
-        }
         ResponseData<CommentDO> responseData = new ResponseData<CommentDO>();
         ServiceMessage<CommentDO> data = commentManagerService.saveCommentDO(commentDO);
         return responseData.buildResponseDataByCode(data);

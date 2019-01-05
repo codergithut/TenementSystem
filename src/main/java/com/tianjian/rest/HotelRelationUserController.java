@@ -21,7 +21,7 @@ public class HotelRelationUserController {
     HotelRelationUserManagerService hotelRelationUserManagerService;
 
     @PostMapping("/edit")
-    public ResponseData<HotelRelationUser> edit(@RequestBody HotelRelationUser hotelRelationUser) {
+    public ResponseData<HotelRelationUser> edit(@RequestBody HotelRelationUser hotelRelationUser) throws Exception {
         ResponseData<HotelRelationUser> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode
                 (hotelRelationUserManagerService.saveHotelRelationUser(hotelRelationUser));

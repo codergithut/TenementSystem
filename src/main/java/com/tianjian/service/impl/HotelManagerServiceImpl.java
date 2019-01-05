@@ -7,6 +7,7 @@ import com.tianjian.data.service.HotelRelationUserCurd;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.ServiceEnum;
+import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,10 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     }
 
     @Override
-    public ServiceMessage<HotelDO> saveHotelDO(HotelDO hotelDO) {
+    public ServiceMessage<HotelDO> saveHotelDO(HotelDO hotelDO) throws Exception {
+        if(StringUtils.isBlank(hotelDO.getHotelId())) {
+            hotelDO.setHotelId(UUIDUtil.getPreUUID("HOTEL"));
+        }
         HotelDO save = hotelCurd.save(hotelDO);
         if(save != null) {
             return new ServiceMessage(ServiceEnum.SUCCESS,  save);

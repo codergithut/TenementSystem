@@ -22,7 +22,7 @@ public interface HotelManagerService {
      * @param hotelDO
      * @return
      */
-    ServiceMessage<HotelDO> saveHotelDO(HotelDO hotelDO);
+    ServiceMessage<HotelDO> saveHotelDO(HotelDO hotelDO) throws Exception;
 
 
     /**

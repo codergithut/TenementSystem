@@ -34,7 +34,7 @@ public class HotelController {
 
 
     @PostMapping("/save")
-    public ResponseData<HotelDO> saveOrUpdate(@RequestBody HotelDO hotelDO) {
+    public ResponseData<HotelDO> saveOrUpdate(@RequestBody HotelDO hotelDO) throws Exception {
         ResponseData<HotelDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelManagerService.saveHotelDO(hotelDO));
     }

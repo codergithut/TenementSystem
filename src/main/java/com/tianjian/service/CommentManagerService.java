@@ -23,7 +23,7 @@ public interface CommentManagerService {
      * @param commentDO
      * @return
      */
-    ServiceMessage<CommentDO> saveCommentDO(CommentDO commentDO);
+    ServiceMessage<CommentDO> saveCommentDO(CommentDO commentDO) throws Exception;
 
 
     /**

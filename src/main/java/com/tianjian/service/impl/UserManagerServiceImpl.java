@@ -5,6 +5,8 @@ import com.tianjian.data.service.UserCurd;
 import com.tianjian.service.ServiceEnum;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.UserManagerService;
+import com.tianjian.util.UUIDUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +25,13 @@ public class UserManagerServiceImpl implements UserManagerService {
      * @param userDO
      */
     @Override
-    public ServiceMessage<Boolean> registerUser(UserDO userDO) {
+    public ServiceMessage<Boolean> registerUser(UserDO userDO) throws Exception {
         UserDO user = userCurd.findByAccount(userDO.getAccount());
         if(user != null) {
             return new ServiceMessage(ServiceEnum.DUPLICATION_NAME, null);
+        }
+        if(StringUtils.isBlank(userDO.getUserId())) {
+            userDO.setUserId(UUIDUtil.getPreUUID("USER"));
         }
         userCurd.save(userDO);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, null);

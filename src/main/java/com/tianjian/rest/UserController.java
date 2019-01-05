@@ -29,7 +29,6 @@ public class UserController {
     @PostMapping("/register")
     public ResponseData<Boolean> registerUser(@RequestBody UserDO userDO) throws Exception {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
-        userDO.setUserId(UUIDUtil.getPreUUID("USER"));
         ServiceMessage<Boolean> data = userManagerService.registerUser(userDO);
         return responseData.buildResponseDataByCode(data);
     }
