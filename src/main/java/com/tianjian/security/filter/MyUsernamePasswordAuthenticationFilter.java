@@ -24,7 +24,7 @@ import com.alibaba.fastjson.JSONObject;
 public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
 	public MyUsernamePasswordAuthenticationFilter() {
-		super(new AntPathRequestMatcher("/login", "POST"));
+		super(new AntPathRequestMatcher("/api/user/login", "POST"));
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class MyUsernamePasswordAuthenticationFilter extends AbstractAuthenticati
 		String username = null, password = null;
 		if(StringUtils.hasText(body)) {
 		    JSONObject jsonObj = JSON.parseObject(body);
-		    username = jsonObj.getString("accout");
+		    username = jsonObj.getString("account");
 		    password = jsonObj.getString("password");
 		}	
 		
