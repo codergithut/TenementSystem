@@ -1,6 +1,7 @@
 package com.tianjian.rest;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tianjian.data.bean.CommentDO;
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
@@ -54,15 +55,36 @@ public class UserController {
         UserDO userDO = new UserDO();
         userDO.setRole("USER");
         userDO.setAccount("tianjian");
-        userDO.setUserId("test");
         userDO.setEmail("14sdfasdf@qq.com");
         userDO.setPassword("hahah");
+        userDO.setUserId("userID");
         System.out.println(JSONObject.toJSONString(userDO));
 
         HotelRelationUser hotelRelationUser = new HotelRelationUser();
         hotelRelationUser.setUserId("test");
+        hotelRelationUser.setRelationId("relationID");
         hotelRelationUser.setHotelId("0f3b0e39-9111-47c4-ace8-4f250a6cd05d");
         System.out.println(JSONObject.toJSONString(hotelRelationUser));
+
+        CommentDO commentDO = new CommentDO();
+        commentDO.setCommentId("commentid");
+        commentDO.setUserId("userid");
+        commentDO.setComment("comment");
+        commentDO.setHotelId("hoteId");
+
+        System.out.println(JSONObject.toJSONString(commentDO));
+
+        HotelDO hotelDO = new HotelDO();
+        hotelDO.setHotelId("hotelId");
+        hotelDO.setContent("content");
+        hotelDO.setAlias("alias");
+        hotelDO.setImg("ceshi");
+        hotelDO.setLocation("SH");
+        hotelDO.setName("SH");
+
+        System.out.println(JSONObject.toJSONString(hotelDO));
+
+
     }
 
 }
