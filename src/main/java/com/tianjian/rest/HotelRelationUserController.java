@@ -27,8 +27,9 @@ public class HotelRelationUserController {
                 (hotelRelationUserManagerService.saveHotelRelationUser(hotelRelationUser));
     }
 
-    @PostMapping("/delete")
-    public ResponseData deleteHotel(@RequestBody  String relationId) {
+    @GetMapping("/delete")
+    public ResponseData deleteHotel(@RequestParam(value="relationId",required=true)
+                                                String relationId) {
         ResponseData<HotelDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelRelationUserManagerService.deleteHotelRelationUser(relationId));
     }

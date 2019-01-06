@@ -49,11 +49,6 @@ public class UserController {
         return responseData.buildResponseDataByCode(userManagerService.findUserDO());
     }
 
-    @PostMapping("/login")
-    public ResponseData<String> login(@RequestBody UserDO userDO) {
-        ResponseData<String> responseData = new ResponseData<>();
-        return null;
-    }
 
     public static void main(String[] args) {
         UserDO userDO = new UserDO();

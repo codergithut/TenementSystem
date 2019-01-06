@@ -41,8 +41,9 @@ public class CommentController {
         return responseData.buildResponseDataByCode(data);
     }
 
-    @PostMapping("/delete")
-    public ResponseData deleteComment(@RequestBody String commentId) throws Exception {
+    @GetMapping("/delete")
+    public ResponseData deleteComment(@RequestParam(value="commentId",required=true)
+                                                  String commentId) throws Exception {
         ResponseData responseData = new ResponseData<>();
         ServiceMessage<List<CommentDO>> data = commentManagerService.deleteCommentDO(commentId);
         return responseData.buildResponseDataByCode(data);

@@ -39,8 +39,9 @@ public class HotelController {
         return responseData.buildResponseDataByCode(hotelManagerService.saveHotelDO(hotelDO));
     }
 
-    @PostMapping("/delete")
-    public ResponseData deleteHotel(@RequestBody String hotelId) {
+    @GetMapping("/delete")
+    public ResponseData deleteHotel(@RequestParam(value="hotelId",required=true)
+            String hotelId) {
         ResponseData<HotelDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelManagerService.deleteHotelDO(hotelId));
     }
