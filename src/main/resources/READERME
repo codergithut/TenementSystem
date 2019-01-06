@@ -1,0 +1,107 @@
+接口测试说明
+
+返回结果自己看啊
+
+用户实体
+地址 /api/user/register
+描述 用户注册
+请求方式 POST
+请求数据 {"account":"tianjian","email":"14sdfasdf@qq.com","password":"hahah","role":"USER"}
+
+
+地址 /api/user/login
+描述 用户登录
+请求方式 POST
+请求数据
+
+
+地址 /api/user/unregister
+描述 用户注销
+请求方式 GET
+请求数据 userId test
+
+地址 /api/user/getAllUser
+描述 获取所有用户
+请求方式 GET
+
+评论实体
+地址 /api/comment/edit
+描述 编辑添加用户评论（commitId 为空就是添加，不是空就是修改）
+请求方式 POST
+请求数据 {"comment":"comment","commentId":"commentid","hotelId":"hoteId","userId":"userid"}
+
+地址 /api/comment/search
+描述 搜索用户评论
+请求方式 POST
+请求数据 {"comment":"comment","commentId":"commentid","hotelId":"hoteId","userId":"userid"}
+
+地址 /api/comment/delete
+描述 删除用户评论
+请求方式 GET
+请求数据 commitId test
+
+酒店实体
+地址 /api/hotel/search
+描述 查询酒店信息
+请求方式 POST
+请求数据 {"alias":"alias","content":"content","hotelId":"hotelId","img":"ceshi","location":"SH","name":"SH"}
+
+地址 /api/hotel/save
+描述 酒店信息修改或保存 hotelId空就是添加 非空就是修改
+请求方式 POST
+请求数据 {"alias":"alias","content":"content","hotelId":"hotelId","img":"ceshi","location":"SH","name":"SH"}
+
+地址 /api/hotel/delete
+描述 删除酒店信息
+请求方式 GET
+请求数据 hotelId test
+
+地址 /api/hotel/searhByUserid
+描述 根据用户id获取他拥有权限的酒店信息
+请求数据 GET
+请求数据 userId test
+
+关联实体
+地址 /api/relation/edit
+描述 关联用户和酒店信息
+请求数据 POST
+请求数据 {"hotelId":"0f3b0e39-9111-47c4-ace8-4f250a6cd05d","relationId":"relationID","userId":"test"}
+
+地址 /api/relation/delete
+描述 删除酒店和用户关联信息
+请求方式 GET
+请求数据 relationId test
+
+地址
+
+地址
+
+地址
+
+地址
+
+字段描述
+现在前端数据和数据库字段一致 下面是实体信息介绍
+
+评论实体
+commentId 评论ID 主键
+hotelId 酒店ID
+userId 用户ID
+comment 评论内容
+
+酒店实体
+hotelId 酒店ID 主键
+name 酒店名称
+alias 酒店别名
+location 酒店地址
+img 酒店图片，暂时不用
+content 酒店描述
+
+用户实体
+userId 用户id 用户ID 主键
+account 账号名称
+password 账号密码
+email 账号邮箱
+role 用户权限
+
+

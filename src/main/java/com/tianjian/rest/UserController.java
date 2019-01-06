@@ -36,9 +36,12 @@ public class UserController {
         return responseData.buildResponseDataByCode(data);
     }
 
-    @PostMapping("/unregister")
-    public ResponseData<Boolean> unRegisterUser(@RequestBody UserDO userDO) throws Exception {
+    @GetMapping("/unregister")
+    public ResponseData<Boolean> unRegisterUser(@RequestParam(value="userId",required=true)
+            String userId) throws Exception {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
+        UserDO userDO = new UserDO();
+        userDO.setUserId(userId);
         ServiceMessage<Boolean> data = userManagerService.unRegisterUser(userDO);
         return responseData.buildResponseDataByCode(data);
     }
