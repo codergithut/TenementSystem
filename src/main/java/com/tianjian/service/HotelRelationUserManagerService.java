@@ -1,7 +1,5 @@
 package com.tianjian.service;
 
-import com.tianjian.data.bean.CommentDO;
-import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.model.ServiceMessage;
 
