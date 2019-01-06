@@ -45,8 +45,9 @@ public class HotelController {
         return responseData.buildResponseDataByCode(hotelManagerService.deleteHotelDO(hotelId));
     }
 
-    @PostMapping("/searhByUserid")
-    public ResponseData<List<HotelDO>> searchByUserId(String userId) {
+    @GetMapping("/searhByUserid")
+    public ResponseData<List<HotelDO>> searchByUserId
+            (@RequestParam(value="userId",required=true) String userId) {
         ResponseData<List<HotelDO>> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(hotelManagerService.getHotelByUserIds(userId));
     }

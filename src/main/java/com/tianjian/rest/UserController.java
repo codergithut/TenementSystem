@@ -2,6 +2,7 @@ package com.tianjian.rest;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
 import com.tianjian.data.service.UserCurd;
 import com.tianjian.model.view.ResponseData;
@@ -42,7 +43,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/getAllUser")
+    @GetMapping("/getAllUser")
     public ResponseData<List<UserDO>> getAllUser() {
         ResponseData<List<UserDO>> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(userManagerService.findUserDO());
@@ -62,6 +63,11 @@ public class UserController {
         userDO.setEmail("14sdfasdf@qq.com");
         userDO.setPassword("hahah");
         System.out.println(JSONObject.toJSONString(userDO));
+
+        HotelRelationUser hotelRelationUser = new HotelRelationUser();
+        hotelRelationUser.setUserId("test");
+        hotelRelationUser.setHotelId("0f3b0e39-9111-47c4-ace8-4f250a6cd05d");
+        System.out.println(JSONObject.toJSONString(hotelRelationUser));
     }
 
 }
