@@ -1,6 +1,5 @@
 package com.tianjian.data.service;
 
-import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.TagDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +14,6 @@ import java.util.List;
 @Repository
 public interface TagCurd
         extends JpaRepository<TagDO, String> {
+    @Query(value = "select * from TAG s where s.tag_id in ?1", nativeQuery = true)
+    List<TagDO> getTagByIds(List<String> ids);
 }

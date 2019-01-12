@@ -1,6 +1,7 @@
 package com.tianjian.data.bean;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -13,6 +14,7 @@ public class TagDO {
     /**
      *
      */
+    @Id
     private String tagId;
 
     /**
