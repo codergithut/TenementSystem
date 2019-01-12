@@ -5,12 +5,12 @@ import com.tianjian.data.bean.CommentDO;
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
-import com.tianjian.data.service.UserCurd;
+import com.tianjian.model.UserManageModel;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.HotelManagerService;
+import com.tianjian.service.HotelRelationUserManagerService;
 import com.tianjian.service.UserManagerService;
-import com.tianjian.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +29,9 @@ public class UserController {
     @Autowired
     private HotelManagerService hotelManagerService;
 
+    @Autowired
+    private HotelRelationUserManagerService hotelRelationUserManagerService;
+
     @PostMapping("/register")
     public ResponseData<Boolean> registerUser(@RequestBody UserDO userDO) throws Exception {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
@@ -40,9 +43,7 @@ public class UserController {
     public ResponseData<Boolean> unRegisterUser(@RequestParam(value="userId",required=true)
             String userId) throws Exception {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
-        UserDO userDO = new UserDO();
-        userDO.setUserId(userId);
-        ServiceMessage<Boolean> data = userManagerService.unRegisterUser(userDO);
+        ServiceMessage<Boolean> data = userManagerService.unRegisterUser(userId);
         return responseData.buildResponseDataByCode(data);
     }
 
@@ -53,6 +54,12 @@ public class UserController {
         return responseData.buildResponseDataByCode(userManagerService.findUserDO());
     }
 
+    @PostMapping("/addManager")
+    public ResponseData editManager(@RequestBody UserManageModel userManageModel) {
+        ResponseData responseData = new ResponseData<>();
+        return responseData.buildResponseDataByCode(userManagerService.editManager(userManageModel));
+
+    }
 
     public static void main(String[] args) {
         UserDO userDO = new UserDO();

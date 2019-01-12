@@ -22,7 +22,7 @@ public interface HotelRelationUserManagerService {
      * @param hotelRelationUser
      * @return
      */
-    ServiceMessage<HotelRelationUser> saveHotelRelationUser(HotelRelationUser hotelRelationUser) throws Exception;
+    ServiceMessage<HotelRelationUser> saveHotelRelationUser(HotelRelationUser hotelRelationUser);
 
 
     /**

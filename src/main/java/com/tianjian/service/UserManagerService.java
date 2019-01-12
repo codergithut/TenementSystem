@@ -2,6 +2,7 @@ package com.tianjian.service;
 
 import com.tianjian.data.bean.UserDO;
 import com.tianjian.model.ServiceMessage;
+import com.tianjian.model.UserManageModel;
 
 import java.util.List;
 
@@ -20,14 +21,21 @@ public interface UserManagerService {
 
     /**
      * 取消注册
-     * @param userDO
+     * @param userId
      */
-    ServiceMessage<Boolean> unRegisterUser(UserDO userDO);
+    ServiceMessage<Boolean> unRegisterUser(String userId);
 
     /**
      * 查询所有用户
      * @return
      */
     ServiceMessage<List<UserDO>> findUserDO();
+
+    /**
+     *
+     * @param userManageModel
+     * @return
+     */
+    ServiceMessage editManager(UserManageModel userManageModel);
 
 }

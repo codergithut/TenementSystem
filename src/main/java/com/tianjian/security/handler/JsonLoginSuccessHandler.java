@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tianjian.data.bean.UserDO;
+import com.tianjian.data.service.UserCurd;
 import com.tianjian.model.view.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,6 +28,9 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler{
 	@Autowired
 	private JwtUserService jwtUserService;
 
+	@Autowired
+	private UserCurd userCurd;
+
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -33,6 +38,9 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler{
 		String token = jwtUserService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
 		Map<String, String> authInfo = new HashMap<>();
 		authInfo.put("Authorization", token);
+		String accountName = ((UserDetails) authentication.getPrincipal()).getUsername();
+		UserDO userDO = userCurd.findByAccount(accountName);
+		authInfo.put("userid", userDO.getUserId());
 		ResponseData<Map<String,String>> responseData = new ResponseData<>();
         responseData.setCode(1);
         responseData.setMsg("login success");

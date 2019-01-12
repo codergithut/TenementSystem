@@ -30,9 +30,13 @@ public class HotelRelationUserManagerServiceImpl implements HotelRelationUserMan
     }
 
     @Override
-    public ServiceMessage<HotelRelationUser> saveHotelRelationUser(HotelRelationUser hotelRelationUser) throws Exception {
+    public ServiceMessage<HotelRelationUser> saveHotelRelationUser(HotelRelationUser hotelRelationUser) {
         if(StringUtils.isBlank(hotelRelationUser.getRelationId())) {
-            hotelRelationUser.setRelationId(UUIDUtil.getPreUUID("RELATION"));
+            try {
+                hotelRelationUser.setRelationId(UUIDUtil.getPreUUID("RELATION"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         HotelRelationUser data = hotelRelationUserCurd.save(hotelRelationUser);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, data);
