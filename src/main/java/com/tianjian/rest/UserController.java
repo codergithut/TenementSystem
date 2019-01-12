@@ -87,7 +87,6 @@ public class UserController {
         HotelDO hotelDO = new HotelDO();
         hotelDO.setHotelId("hotelId");
         hotelDO.setContent("content");
-        hotelDO.setAlias("alias");
         hotelDO.setImg("ceshi");
         hotelDO.setLocation("SH");
         hotelDO.setName("SH");

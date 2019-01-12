@@ -1,6 +1,7 @@
 package com.tianjian.service;
 
 import com.tianjian.data.bean.HotelDO;
+import com.tianjian.model.HotelDetail;
 import com.tianjian.model.ServiceMessage;
 
 import java.util.List;
@@ -12,10 +13,10 @@ public interface HotelManagerService {
 
     /**
      * 查找hotel信息
-     * @param hotelDO
+     * @param userId
      * @return
      */
-    ServiceMessage<List<HotelDO>> findHotelDO(HotelDO hotelDO);
+    ServiceMessage<List<HotelDO>> findHotelDO(String userId);
 
     /**
      * 保存酒店信息
@@ -33,6 +34,5 @@ public interface HotelManagerService {
     ServiceMessage deleteHotelDO(String hotelId);
 
 
-    ServiceMessage<List<HotelDO>> getHotelByUserIds(String userId);
-
+    ServiceMessage<HotelDetail> getHotelDetail(String hotelId);
 }

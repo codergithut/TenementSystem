@@ -48,7 +48,6 @@ public class CurdDoTest {
         userDao.save(userDO);
 
         HotelDO hotelDO = new HotelDO();
-        hotelDO.setAlias("测试账号");
         hotelDO.setContent("很多消息");
         hotelDO.setName("测试酒店");
         hotelDO.setHotelId(UUID.randomUUID().toString());

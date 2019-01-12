@@ -32,7 +32,6 @@ public class UUIDUtil {
         hotelDO.setLocation("SH");
         hotelDO.setImg("SSSS");
         hotelDO.setHotelId(UUIDUtil.getPreUUID("HOTEL"));
-        hotelDO.setAlias("牛逼哄哄的酒店不需要别名");
         hotelDO.setContent("我是测试数据不要在意");
         System.out.println(JSONObject.toJSONString(hotelDO));
 

@@ -2,8 +2,13 @@ package com.tianjian.service.impl;
 
 import com.tianjian.data.bean.HotelDO;
 import com.tianjian.data.bean.HotelRelationUser;
+import com.tianjian.data.bean.RoomDO;
+import com.tianjian.data.bean.UserDO;
 import com.tianjian.data.service.HotelCurd;
 import com.tianjian.data.service.HotelRelationUserCurd;
+import com.tianjian.data.service.RoomCurd;
+import com.tianjian.data.service.UserCurd;
+import com.tianjian.model.HotelDetail;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.ServiceEnum;
@@ -27,19 +32,32 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     @Autowired
     HotelRelationUserCurd hotelRelationUserCurd;
 
+    @Autowired
+    RoomCurd roomCurd;
+
+    @Autowired
+    UserCurd userCurd;
+
     @Override
-    public ServiceMessage<List<HotelDO>> findHotelDO(HotelDO hotelDO) {
+    public ServiceMessage<List<HotelDO>> findHotelDO(String userId) {
+        UserDO userDO = userCurd.findById(userId).get();
         List<HotelDO> datas = new ArrayList<>();
-        if(hotelDO != null && StringUtils.isNoneBlank(hotelDO.getHotelId())) {
-            datas.add(hotelCurd.findById(hotelDO.getHotelId()).get());
-        } else {
-            datas = hotelCurd.findAll();
+        if(userDO == null) {
+            return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
         }
 
-        if(datas.size() > 0) {
-            return new ServiceMessage(ServiceEnum.SUCCESS, datas);
+        if("USER".equals(userDO.getRole())) {
+            return new ServiceMessage<>(ServiceEnum.SUCCESS, hotelCurd.findAll());
         } else {
-            return new ServiceMessage(ServiceEnum.SEARCH_NULL, null);
+            List<String> hotelIds = new ArrayList<String>();
+            List<HotelRelationUser> relationUsers = hotelRelationUserCurd.findByUserId(userId);
+            if(relationUsers != null && relationUsers.size() >0) {
+                relationUsers.forEach(t -> {
+                    hotelIds.add(t.getHotelId());
+                });
+                return new ServiceMessage<>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds));
+            }
+            return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
         }
 
     }
@@ -65,15 +83,13 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     }
 
     @Override
-    public ServiceMessage<List<HotelDO>> getHotelByUserIds(String userId) {
-        List<String> hotelIds = new ArrayList<String>();
-        List<HotelRelationUser> relationUsers = hotelRelationUserCurd.findByUserId(userId);
-        if(relationUsers != null && relationUsers.size() >0) {
-            relationUsers.forEach(t -> {
-                hotelIds.add(t.getHotelId());
-            });
-            return new ServiceMessage<>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds));
-        }
-        return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
+    public ServiceMessage<HotelDetail> getHotelDetail(String hotelId) {
+        HotelDetail hotelDetail = new HotelDetail();
+        HotelDO hotelDO = hotelCurd.findById(hotelId).get();
+        List<RoomDO> rooms = roomCurd.findByHotelId(hotelId);
+        hotelDetail.setHotelInfo(hotelDO);
+        hotelDetail.setRoomsInfo(rooms);
+        return new ServiceMessage(ServiceEnum.SUCCESS,  hotelDetail);
     }
+
 }

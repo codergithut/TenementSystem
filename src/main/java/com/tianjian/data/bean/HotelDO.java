@@ -23,11 +23,6 @@ public class HotelDO {
     private String name;
 
     /**
-     * 酒店别名
-     */
-    private String alias;
-
-    /**
      * 酒店位置
      */
     private String location;
@@ -41,6 +36,8 @@ public class HotelDO {
      * 酒店信息
      */
     private String content;
+
+    private String star;
 
     public String getHotelId() {
         return hotelId;
@@ -56,14 +53,6 @@ public class HotelDO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 
     public String getLocation() {
@@ -88,5 +77,13 @@ public class HotelDO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getStar() {
+        return star;
+    }
+
+    public void setStar(String star) {
+        this.star = star;
     }
 }

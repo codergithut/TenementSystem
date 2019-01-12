@@ -81,6 +81,8 @@ public class UserManagerServiceImpl implements UserManagerService {
         String userID = userManageModel.getId();
         UserDO userDO = new UserDO();
         userDO.setRole("MANAGER");
+        userDO.setUsername(userManageModel.getUsername());
+        userDO.setAccount(userManageModel.getAccount());
         userDO.setPassword(userManageModel.getPassword());
         userDO.setEmail(userManageModel.getEmail());
 
