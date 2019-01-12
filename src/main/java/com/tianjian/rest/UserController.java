@@ -80,7 +80,6 @@ public class UserController {
         commentDO.setCommentId("commentid");
         commentDO.setUserId("userid");
         commentDO.setComment("comment");
-        commentDO.setHotelId("hoteId");
 
         System.out.println(JSONObject.toJSONString(commentDO));
 

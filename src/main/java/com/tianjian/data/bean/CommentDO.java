@@ -20,12 +20,22 @@ public class CommentDO {
     /**
      * 评论酒店的ID
      */
-    private String hotelId;
+    private String roomId;
 
     /**
      * 用户ID
      */
     private String userId;
+
+    /**
+     *
+     */
+    private String username;
+
+    /**
+     *
+     */
+    private String date;
 
     /**
      * 评论
@@ -38,14 +48,6 @@ public class CommentDO {
 
     public void setCommentId(String commentId) {
         this.commentId = commentId;
-    }
-
-    public String getHotelId() {
-        return hotelId;
-    }
-
-    public void setHotelId(String hotelId) {
-        this.hotelId = hotelId;
     }
 
     public String getUserId() {
@@ -62,5 +64,29 @@ public class CommentDO {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

@@ -1,22 +1,20 @@
 package com.tianjian.service.impl;
 
 import com.tianjian.data.bean.CommentDO;
-import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.bean.UserDO;
 import com.tianjian.data.service.CommentCurd;
-import com.tianjian.data.service.HotelCurd;
+import com.tianjian.data.service.UserCurd;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.CommentManagerService;
-import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.ServiceEnum;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
-import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,9 +26,14 @@ public class CommentManagerServiceImpl implements CommentManagerService {
     @Autowired
     CommentCurd commentCurd;
 
+    @Autowired
+    UserCurd userCurd;
+
     @Override
-    public ServiceMessage<List<CommentDO>> findCommentDO(CommentDO commentDO) {
+    public ServiceMessage<List<CommentDO>> findCommentDO(String roomId) {
         List<CommentDO> datas = new ArrayList<>();
+        CommentDO commentDO = new CommentDO();
+        commentDO.setRoomId(roomId);
         Example<CommentDO> example = Example.of(commentDO);
         List<CommentDO> all = commentCurd.findAll(example);
         datas.addAll(all);
@@ -47,6 +50,9 @@ public class CommentManagerServiceImpl implements CommentManagerService {
         if(StringUtils.isBlank(commentDO.getCommentId())) {
             commentDO.setCommentId(UUIDUtil.getPreUUID("comment"));
         }
+        UserDO userDO = userCurd.findById(commentDO.getUserId()).get();
+        commentDO.setUsername(userDO.getUsername());
+        commentDO.setDate(new Date().toString());
         CommentDO save = commentCurd.save(commentDO);
         if(save != null) {
             return new ServiceMessage(ServiceEnum.SUCCESS,  save);

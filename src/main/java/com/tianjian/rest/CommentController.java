@@ -27,17 +27,17 @@ public class CommentController {
     @Autowired
     private CommentManagerService commentManagerService;
 
-    @PostMapping("/edit")
+    @PostMapping("/add")
     public ResponseData<CommentDO> saveComment(@RequestBody CommentDO commentDO) throws Exception {
         ResponseData<CommentDO> responseData = new ResponseData<CommentDO>();
         ServiceMessage<CommentDO> data = commentManagerService.saveCommentDO(commentDO);
         return responseData.buildResponseDataByCode(data);
     }
 
-    @PostMapping("/search")
-    public ResponseData<List<CommentDO>> searchComment(@RequestBody CommentDO commentDO) throws Exception {
+    @GetMapping("/search")
+    public ResponseData<List<CommentDO>> searchComment(String roomId) throws Exception {
         ResponseData<List<CommentDO>> responseData = new ResponseData<>();
-        ServiceMessage<List<CommentDO>> data = commentManagerService.findCommentDO(commentDO);
+        ServiceMessage<List<CommentDO>> data = commentManagerService.findCommentDO(roomId);
         return responseData.buildResponseDataByCode(data);
     }
 
@@ -62,7 +62,7 @@ public class CommentController {
         CommentDO commentDO = new CommentDO();
         commentDO.setCommentId(UUID.randomUUID().toString());
         commentDO.setComment("this is test");
-        commentDO.setHotelId(UUID.randomUUID().toString());
+        commentDO.setRoomId(UUID.randomUUID().toString());
         commentDO.setUserId("test");
         System.out.println(JSON.toJSONString(commentDO));
     }

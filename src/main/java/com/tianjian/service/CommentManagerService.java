@@ -13,10 +13,10 @@ public interface CommentManagerService {
 
     /**
      * 查找评论信息
-     * @param commentDO
+     * @param roomId
      * @return
      */
-    ServiceMessage<List<CommentDO>> findCommentDO(CommentDO commentDO);
+    ServiceMessage<List<CommentDO>> findCommentDO(String roomId);
 
     /**
      * 保存评论信息
