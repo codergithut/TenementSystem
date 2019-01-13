@@ -61,6 +61,17 @@ public class UserController {
 
     }
 
+    @GetMapping("/exception")
+    public String exceptionTest() throws Exception {
+        boolean flag = true;
+
+        if(flag) {
+            throw new Exception("error happy");
+        } else {
+            return "ok";
+        }
+    }
+
     public static void main(String[] args) {
         UserDO userDO = new UserDO();
         userDO.setRole("USER");

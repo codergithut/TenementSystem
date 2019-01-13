@@ -69,15 +69,4 @@ public class HotelController {
         return hotelCurd.findAll();
     }
 
-    public static void main(String[] args) {
-        HotelDO hotelDO = new HotelDO();
-        hotelDO.setName("ceshijiudian1");
-        hotelDO.setLocation("SH");
-        hotelDO.setContent("hhahaha");
-        hotelDO.setImg("www.baidua.com");
-        hotelDO.setStar("100Star");
-        hotelDO.setHotelId(UUID.randomUUID().toString());
-        System.out.println(JSONObject.toJSONString(hotelDO));
-    }
-
 }

@@ -10,6 +10,7 @@ public enum ServiceEnum {
     NOT_FIND_NAME(2, "未找到该用户"),
     SAVE_NULL(3, "保存结果失败"),
     SEARCH_NULL(4, "查询结果为空"),
+    FAIL(5,"系统错误，请联系管理员"),
     SUCCESS(0, "业务成功");
 
 
