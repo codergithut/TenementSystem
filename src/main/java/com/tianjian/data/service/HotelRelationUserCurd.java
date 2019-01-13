@@ -4,6 +4,7 @@ import com.tianjian.data.bean.HotelRelationUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -13,5 +14,34 @@ import java.util.List;
 @Repository
 public interface HotelRelationUserCurd
         extends JpaRepository<HotelRelationUser, String> {
+
+    /**
+     * 根据用户id获取用户关系信息
+     * @param userId 用户ID
+     * @return 关系信息
+     */
     List<HotelRelationUser> findByUserId(String userId);
+
+    /**
+     * 根据HotelId获取关系信息
+     * @param hotelId 酒店ID
+     * @return 关系信息
+     */
+    List<HotelRelationUser> findByHotelId(String hotelId);
+
+    /**
+     * 根据酒店ID删除关系信息
+     * @param hotelId 酒店ID
+     * @return 删除条目
+     */
+    @Transactional
+    Integer deleteByHotelId(String hotelId);
+
+    /**
+     * 根据用户ID删除关系信息
+     * @param userId 用户ID
+     * @return 删除条数
+     */
+    @Transactional
+    Integer deleteByUserId(String userId);
 }

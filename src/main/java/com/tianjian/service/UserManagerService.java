@@ -15,7 +15,7 @@ public interface UserManagerService {
      * 注册用户
      * @param userDO
      */
-    ServiceMessage<Boolean> registerUser(UserDO userDO) throws Exception;
+    ServiceMessage<Boolean> registerUser(UserDO userDO);
 
 
 

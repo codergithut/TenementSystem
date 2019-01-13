@@ -11,5 +11,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserCurd
         extends JpaRepository<UserDO, String> {
+
+    /**
+     * 根据用户账号获取用户信息
+     * @param account 用户账号
+     * @return 用户信息
+     */
     UserDO findByAccount(String account);
 }

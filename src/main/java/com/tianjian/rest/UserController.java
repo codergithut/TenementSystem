@@ -1,9 +1,5 @@
 package com.tianjian.rest;
 
-import com.alibaba.fastjson.JSONObject;
-import com.tianjian.data.bean.CommentDO;
-import com.tianjian.data.bean.HotelDO;
-import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
 import com.tianjian.model.UserManageModel;
 import com.tianjian.model.view.ResponseData;
@@ -17,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * 用户信息数据接口
  * Created by tianjian on 2018/12/23.
  */
 @RestController
@@ -32,77 +29,51 @@ public class UserController {
     @Autowired
     private HotelRelationUserManagerService hotelRelationUserManagerService;
 
+    /**
+     * 用户注册
+     * @param userDO 用户注册信息
+     * @return 业务封装
+     */
     @PostMapping("/register")
-    public ResponseData<Boolean> registerUser(@RequestBody UserDO userDO) throws Exception {
+    public ResponseData<Boolean> registerUser(@RequestBody UserDO userDO) {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
         ServiceMessage<Boolean> data = userManagerService.registerUser(userDO);
         return responseData.buildResponseDataByCode(data);
     }
 
+    /**
+     * 账户注销
+     * @param userId 用户ID
+     * @return 业务封装
+     */
     @GetMapping("/unregister")
     public ResponseData<Boolean> unRegisterUser(@RequestParam(value="userId",required=true)
-            String userId) throws Exception {
+            String userId) {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
         ServiceMessage<Boolean> data = userManagerService.unRegisterUser(userId);
         return responseData.buildResponseDataByCode(data);
     }
 
 
+    /**
+     * 获取所有用户信息
+     * @return 用户信息列表
+     */
     @GetMapping("/getAllUser")
     public ResponseData<List<UserDO>> getAllUser() {
         ResponseData<List<UserDO>> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(userManagerService.findUserDO());
     }
 
+    /**
+     * 修改或添加用户关联关系，会更新用户信息和用户和酒店的关联关系信息
+     * @param userManageModel 酒店管理模型
+     * @return 业务封装信息
+     */
     @PostMapping("/addManager")
     public ResponseData editManager(@RequestBody UserManageModel userManageModel) {
         ResponseData responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(userManagerService.editManager(userManageModel));
-
-    }
-
-    @GetMapping("/exception")
-    public String exceptionTest() throws Exception {
-        boolean flag = true;
-
-        if(flag) {
-            throw new Exception("error happy");
-        } else {
-            return "ok";
-        }
-    }
-
-    public static void main(String[] args) {
-        UserDO userDO = new UserDO();
-        userDO.setRole("USER");
-        userDO.setAccount("tianjian");
-        userDO.setEmail("14sdfasdf@qq.com");
-        userDO.setPassword("hahah");
-        userDO.setUserId("userID");
-        System.out.println(JSONObject.toJSONString(userDO));
-
-        HotelRelationUser hotelRelationUser = new HotelRelationUser();
-        hotelRelationUser.setUserId("test");
-        hotelRelationUser.setRelationId("relationID");
-        hotelRelationUser.setHotelId("0f3b0e39-9111-47c4-ace8-4f250a6cd05d");
-        System.out.println(JSONObject.toJSONString(hotelRelationUser));
-
-        CommentDO commentDO = new CommentDO();
-        commentDO.setCommentId("commentid");
-        commentDO.setUserId("userid");
-        commentDO.setComment("comment");
-
-        System.out.println(JSONObject.toJSONString(commentDO));
-
-        HotelDO hotelDO = new HotelDO();
-        hotelDO.setHotelId("hotelId");
-        hotelDO.setContent("content");
-        hotelDO.setImg("ceshi");
-        hotelDO.setLocation("SH");
-        hotelDO.setName("SH");
-
-        System.out.println(JSONObject.toJSONString(hotelDO));
-
 
     }
 

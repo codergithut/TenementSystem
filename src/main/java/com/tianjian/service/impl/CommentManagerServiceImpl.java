@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
+ * 评论管理服务
  * Created by tianjian on 2019/1/1.
  */
 @Service
@@ -29,6 +31,11 @@ public class CommentManagerServiceImpl implements CommentManagerService {
     @Autowired
     UserCurd userCurd;
 
+    /**
+     * 根据房间id获取评论
+     * @param roomId 房间ID
+     * @return 用户评论信息
+     */
     @Override
     public ServiceMessage<List<CommentDO>> findCommentDO(String roomId) {
         List<CommentDO> datas = new ArrayList<>();
@@ -45,25 +52,37 @@ public class CommentManagerServiceImpl implements CommentManagerService {
 
     }
 
+    /**
+     * 保存用户评论信息
+     * @param commentDO 用户评论数据
+     * @return 业务封装信息
+     */
     @Override
-    public ServiceMessage<CommentDO> saveCommentDO(CommentDO commentDO) throws Exception {
+    public ServiceMessage<CommentDO> saveCommentDO(CommentDO commentDO) {
         if(StringUtils.isBlank(commentDO.getCommentId())) {
             commentDO.setCommentId(UUIDUtil.getPreUUID("comment"));
         }
-        UserDO userDO = userCurd.findById(commentDO.getUserId()).get();
-        commentDO.setUsername(userDO.getUsername());
-        commentDO.setDate(new Date().toString());
-        CommentDO save = commentCurd.save(commentDO);
-        if(save != null) {
-            return new ServiceMessage(ServiceEnum.SUCCESS,  save);
-        } else {
-            return new ServiceMessage(ServiceEnum.SAVE_NULL,  null);
+        Optional<UserDO> userDO = userCurd.findById(commentDO.getUserId());
+        if(!userDO.isPresent()) {
+            return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
         }
-
+        commentDO.setUsername(userDO.get().getUsername());
+        commentDO.setDate(new Date().toString());
+        commentCurd.save(commentDO);
+        return new ServiceMessage(ServiceEnum.SAVE_NULL,  null);
     }
 
+    /**
+     * 删除评论
+     * @param commentId 评论ID
+     * @return 业务封装信息
+     */
     @Override
     public ServiceMessage deleteCommentDO(String commentId) {
+        Optional<CommentDO> datas = commentCurd.findById(commentId);
+        if(!datas.isPresent()) {
+            return new ServiceMessage(ServiceEnum.DELETE_NOT_FOUND, null);
+        }
         commentCurd.deleteById(commentId);
         return new ServiceMessage(ServiceEnum.SUCCESS,  null);
     }

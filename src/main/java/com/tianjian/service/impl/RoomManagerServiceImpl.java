@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
+ * 房间管理业务类
  * Created by tianjian on 2019/1/12.
  */
 @Service
@@ -21,38 +23,66 @@ public class RoomManagerServiceImpl implements RoomManagerService {
     @Autowired
     RoomCurd roomCurd;
 
+    /**
+     * 根据酒店ID获取房间信息
+     * @param hotelId 酒店ID
+     * @return 房间信息列表
+     */
     @Override
     public ServiceMessage<List<RoomDO>> findRoomInfoByHotelId(String hotelId) {
         List<RoomDO> roomDOS = roomCurd.findByHotelId(hotelId);
         return new ServiceMessage<List<RoomDO>>(ServiceEnum.SUCCESS, roomDOS);
     }
 
+    /**
+     *
+     * @param roomId
+     * @return
+     */
     @Override
     public ServiceMessage<Boolean> deleteRoomByRoomId(String roomId) {
+        Optional<RoomDO> data = roomCurd.findById(roomId);
+        if(!data.isPresent()) {
+            return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
+        }
         roomCurd.deleteById(roomId);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
     }
 
+    /**
+     *
+     * @param roomDO
+     * @return
+     */
     @Override
     public ServiceMessage<Boolean> addRoomInfo(RoomDO roomDO) {
         if(StringUtils.isBlank(roomDO.getRoomId())) {
-            try {
-                roomDO.setRoomId(UUIDUtil.getPreUUID("ROOM"));
-            } catch (Exception e) {
-                e.printStackTrace();
-                return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, false);
-            }
+            roomDO.setRoomId(UUIDUtil.getPreUUID("ROOM"));
         }
         roomCurd.save(roomDO);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
     }
 
+    /**
+     *
+     * @param hotelId
+     * @return
+     */
     @Override
     public ServiceMessage<Boolean> deleteRoomByHotelId(String hotelId) {
+        List<RoomDO>  datas = roomCurd.findByHotelId(hotelId);
+        if(datas == null && datas.size() == 0) {
+            return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
+        }
         roomCurd.deleteByHotelId(hotelId);
         return new ServiceMessage<Boolean>(ServiceEnum.SUCCESS, true);
     }
 
+    /**
+     *
+     * @param roomId
+     * @return
+     */
     @Override
     public ServiceMessage<RoomDO> findRoomInfoByRoomId(String roomId) {
         return new ServiceMessage<RoomDO>(ServiceEnum.SUCCESS, roomCurd.findById(roomId).get());

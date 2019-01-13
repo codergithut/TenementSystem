@@ -10,8 +10,6 @@ import javax.persistence.Table;
 
 /**
  * 用户实体类
- *
- * @author 杨高超
  * @since 2018-03-12
  */
 @Entity
@@ -45,8 +43,13 @@ public class UserDO {
     private String role;
 
 
+    /**
+     * 用户名称
+     */
     private String username;
 
+
+    //set get .....
     public String getUsername() {
         return username;
     }

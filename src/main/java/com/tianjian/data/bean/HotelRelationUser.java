@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 酒店用户关联关系数据
  * Created by tianjian on 2018/12/31.
  */
 @Entity
@@ -27,6 +28,8 @@ public class HotelRelationUser {
      */
     private String userId;
 
+
+    //set get .....
     public String getRelationId() {
         return relationId;
     }

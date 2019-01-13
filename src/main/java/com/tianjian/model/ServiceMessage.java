@@ -22,6 +22,7 @@ public class ServiceMessage<T> {
         this.data = data;
     }
 
+    //set get...
     public ServiceEnum getServiceEnum() {
         return serviceEnum;
     }

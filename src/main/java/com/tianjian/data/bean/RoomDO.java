@@ -5,23 +5,41 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 房间数据
  * Created by tianjian on 2019/1/12.
  */
 @Entity
 @Table(name = "ROOM")
 public class RoomDO {
 
+    /**
+     * 房间ID
+     */
     @Id
     private String roomId;
 
+    /**
+     * 房间名称
+     */
     private String name;
 
+    /**
+     * 房间价格
+     */
     private String price;
 
+    /**
+     * 房间描述
+     */
     private String content;
 
+    /**
+     * 酒店ID
+     */
     private String hotelId;
 
+
+    //set get .....
     public String getName() {
         return name;
     }

@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 标签数据
  * Created by tianjian on 2019/1/12.
  */
 @Entity
@@ -12,16 +13,18 @@ import javax.persistence.Table;
 public class TagDO {
 
     /**
-     *
+     * 标签ID
      */
     @Id
     private String tagId;
 
     /**
-     *
+     * 标签名称
      */
     private String name;
 
+
+    //set get .....
     public String getTagId() {
         return tagId;
     }

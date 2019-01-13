@@ -1,8 +1,8 @@
 package com.tianjian.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
+import com.tianjian.data.service.HotelRelationUserCurd;
 import com.tianjian.data.service.UserCurd;
 import com.tianjian.model.UserManageModel;
 import com.tianjian.model.view.ResponseData;
@@ -29,16 +29,21 @@ public class UserManagerServiceImpl implements UserManagerService {
 
     @Autowired
     HotelRelationUserManagerService hotelRelationUserManagerService;
+
+    @Autowired
+    HotelRelationUserCurd hotelRelationUserCurd;
+
     /**
      * 注册用户
-     * @param userDO
+     * @param userDO 用户模型数据
      */
     @Override
-    public ServiceMessage<Boolean> registerUser(UserDO userDO) throws Exception {
-        UserDO user = userCurd.findByAccount(userDO.getAccount());
-        if(user != null) {
+    public ServiceMessage<Boolean> registerUser(UserDO userDO) {
+
+        if(checkAccountInfo(userDO.getAccount())) {
             return new ServiceMessage(ServiceEnum.DUPLICATION_NAME, null);
         }
+
         if(StringUtils.isBlank(userDO.getUserId())) {
             userDO.setUserId(UUIDUtil.getPreUUID("USER"));
         }
@@ -48,18 +53,20 @@ public class UserManagerServiceImpl implements UserManagerService {
 
 
     /**
-     * 取消注册
-     * @param userId
+     * 账号注销
+     * @param userId 用户id
      */
     @Override
     public ServiceMessage<Boolean> unRegisterUser(String userId) {
 
         UserDO user = userCurd.findById(userId).get();
+
+        if("MANAGER".equals(user.getRole())) {
+            clearRelation(userId);
+        }
+
         if(user == null) {
             return new ServiceMessage(ServiceEnum.NOT_FIND_NAME, null);
-        }
-        if("MANAGER".equals(user.getRole())) {
-            //todo 清理关联关系，和酒店的关联关系
         }
         userCurd.delete(user);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
@@ -67,7 +74,7 @@ public class UserManagerServiceImpl implements UserManagerService {
 
     /**
      * 查询所有用户
-     * @return
+     * @return 用户列表
      */
     @Override
     public ServiceMessage<List<UserDO>> findUserDO() {
@@ -75,6 +82,11 @@ public class UserManagerServiceImpl implements UserManagerService {
     }
 
 
+    /**
+     * 编辑管理用户信息
+     * @param userManageModel 管理用户封装对象
+     * @return 业务封装信息
+     */
     @Override
     public ServiceMessage editManager(UserManageModel userManageModel) {
         ResponseData responseData = new ResponseData();
@@ -88,11 +100,14 @@ public class UserManagerServiceImpl implements UserManagerService {
 
         if(userID != null && StringUtils.isNoneBlank(userID)) {
             userDO.setUserId(userManageModel.getId());
-            //todo 清除已有的关联关系
+            clearRelation(userID);
         } else {
+            if(checkAccountInfo(userDO.getAccount())) {
+                return new ServiceMessage(ServiceEnum.DUPLICATION_NAME, null);
+            }
             userDO.setUserId(UUID.randomUUID().toString());
-            //todo 验证是否用户账号重复
         }
+
         userDO = userCurd.save(userDO);
 
 
@@ -108,14 +123,26 @@ public class UserManagerServiceImpl implements UserManagerService {
 
     }
 
-    public static void main(String[] args) {
-        UserManageModel userManageModel = new UserManageModel();
-        userManageModel.setEmail("1332323@qq.com");
-        userManageModel.setPassword("11223");
-        userManageModel.setAccount("tianjian3332232");
-        userManageModel.setHotel(new String[]{"111111", "222222", "33333"});
-        userManageModel.setId(UUID.randomUUID().toString());
-        userManageModel.setUsername("sfsdfsd");
-        System.out.println(JSONObject.toJSONString(userManageModel));
+    /**
+     * 清除用户房间关联关系
+     */
+    private void clearRelation(String userId) {
+        List<HotelRelationUser> relations = hotelRelationUserCurd.findByUserId(userId);
+        if(relations != null && relations.size() > 0 ) {
+            hotelRelationUserCurd.deleteByUserId(userId);
+        }
+    }
+
+    /**
+     * 检查账号是否重复
+     * @param account
+     * @return
+     */
+    private boolean checkAccountInfo(String account) {
+        UserDO user = userCurd.findByAccount(account);
+        if(user != null) {
+            return true;
+        }
+        return false;
     }
 }

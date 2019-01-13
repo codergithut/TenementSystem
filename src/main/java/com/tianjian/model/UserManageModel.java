@@ -1,24 +1,47 @@
 package com.tianjian.model;
 
 /**
+ * 用户管理model
  * Created by tianjian on 2019/1/12.
  */
 public class UserManageModel {
 
+    /**
+     * 数据ID
+     */
     private String id;
 
+    /**
+     * 用户账号
+     */
     private String account;
 
+    /**
+     * 用户密码
+     */
     private String password;
 
+    /**
+     * 用户名
+     */
     private String username;
 
+    /**
+     * 用户管理id列表
+     */
     private String[] hotel;
 
+    /**
+     * 用户邮箱
+     */
     private String email;
 
+    /**
+     * 用户角色
+     */
     private String role;
 
+    //set get...
     public String getId() {
         return id;
     }

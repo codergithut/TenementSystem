@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 酒店基础数据
  * Created by tianjian on 2018/12/31.
  */
 @Entity
@@ -39,6 +40,7 @@ public class HotelDO {
 
     private String star;
 
+    //set get .....
     public String getHotelId() {
         return hotelId;
     }

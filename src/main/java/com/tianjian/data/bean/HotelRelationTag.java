@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 酒店标签关系数据
  * Created by tianjian on 2018/12/31.
  */
 @Entity
@@ -27,6 +28,7 @@ public class HotelRelationTag {
      */
     private String tagId;
 
+    //set get .....
     public String getRelationId() {
         return relationId;
     }

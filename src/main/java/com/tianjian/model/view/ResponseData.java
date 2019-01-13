@@ -5,6 +5,7 @@ import com.tianjian.model.ServiceMessage;
 import java.util.List;
 
 /**
+ * 响应消息model
  * Created by tianjian on 2018/12/23.
  * 响应消息
  */
@@ -30,6 +31,7 @@ public class ResponseData<T> {
      */
     private Dictionary dictionary;
 
+    //set get...
     public void setMsg(String msg) {
         this.msg = msg;
     }

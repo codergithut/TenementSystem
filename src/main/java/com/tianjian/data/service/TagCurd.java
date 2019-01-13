@@ -14,6 +14,12 @@ import java.util.List;
 @Repository
 public interface TagCurd
         extends JpaRepository<TagDO, String> {
+
+    /**
+     * 根据标签id列表获取所有标签记录
+     * @param ids 标签列表
+     * @return 标签记录
+     */
     @Query(value = "select * from TAG s where s.tag_id in ?1", nativeQuery = true)
     List<TagDO> getTagByIds(List<String> ids);
 }

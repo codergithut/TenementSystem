@@ -27,11 +27,20 @@ public class TagManagerServiceImpl implements TagManagerService {
     @Autowired
     HotelRelationTagCurd hotelRelationTagCurd;
 
+    /**
+     * 获取所有标签记录
+     * @return 标签记录
+     */
     @Override
     public ServiceMessage<List<TagDO>> getTagDO() {
         return new ServiceMessage<List<TagDO>>(ServiceEnum.SUCCESS, tagCurd.findAll());
     }
 
+    /**
+     * 获取酒店标签信息
+     * @param hotelId 酒店ID
+     * @return 酒店的标签列表
+     */
     @Override
     public ServiceMessage<List<TagDO>> getTagDOByHotelId(String hotelId) {
         List<HotelRelationTag> relationTags = hotelRelationTagCurd.findByHotelId(hotelId);
@@ -43,39 +52,65 @@ public class TagManagerServiceImpl implements TagManagerService {
         return new ServiceMessage<>(ServiceEnum.SUCCESS, allTags);
     }
 
+    /**
+     * 根据标签ID删除标签
+     * @param tagId 标签ID
+     * @return 业务封装对象
+     */
     @Override
     public ServiceMessage<Boolean> deleteTagDOByTagId(String tagId) {
+
+        /**
+         * 清除tag关联信息
+         */
+        List<HotelRelationTag> relations = hotelRelationTagCurd.findByTagId(tagId);
+        if(relations != null && relations.size() > 0) {
+            hotelRelationTagCurd.deleteByTagId(tagId);
+        }
+
+        if(!tagCurd.findById(tagId).isPresent()) {
+            return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
+        }
+
         tagCurd.deleteById(tagId);
+
         return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
     }
 
+    /**
+     * 删除关联关系对象
+     * @param relationId 关联关系ID
+     * @return 业务封装对象
+     */
     @Override
     public ServiceMessage<Boolean> deleteHotelRelationTag(String relationId) {
         hotelRelationTagCurd.deleteById(relationId);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
     }
 
+    /**
+     * 保存标签信息
+     * @param tagDO 标签数据
+     * @return 业务封装
+     */
     @Override
     public ServiceMessage saveTagDO(TagDO tagDO) {
         if(StringUtils.isBlank(tagDO.getTagId())) {
-            try {
-                tagDO.setTagId(UUIDUtil.getPreUUID("TAG"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            tagDO.setTagId(UUIDUtil.getPreUUID("TAG"));
         }
         tagCurd.save(tagDO);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
     }
 
+    /**
+     * 保存酒店标签关系对象
+     * @param hotelRelationTag 酒店标签关系对象
+     * @return 业务封装对象
+     */
     @Override
     public ServiceMessage saveHotelRealtionTag(HotelRelationTag hotelRelationTag) {
         if(StringUtils.isBlank(hotelRelationTag.getRelationId())) {
-            try {
-                hotelRelationTag.setRelationId(UUIDUtil.getPreUUID("RELATION:TAG-HOTEL"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            hotelRelationTag.setRelationId(UUIDUtil.getPreUUID("RELATION:TAG-HOTEL"));
         }
         hotelRelationTagCurd.save(hotelRelationTag);
         return new ServiceMessage(ServiceEnum.SUCCESS, null);

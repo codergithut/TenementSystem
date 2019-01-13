@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * 评论基础数据
  * Created by tianjian on 2018/12/31.
  */
 @Entity
@@ -28,20 +29,22 @@ public class CommentDO {
     private String userId;
 
     /**
-     *
+     * 用户名
      */
     private String username;
 
     /**
-     *
+     * 评论时间
      */
     private String date;
 
     /**
-     * 评论
+     * 评论内容
      */
     private String comment;
 
+
+    //set get .....
     public String getCommentId() {
         return commentId;
     }
