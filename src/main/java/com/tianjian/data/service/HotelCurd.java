@@ -1,6 +1,8 @@
 package com.tianjian.data.service;
 
 import com.tianjian.data.bean.HotelDO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,5 +17,5 @@ import java.util.List;
 public interface HotelCurd
         extends JpaRepository<HotelDO, String> {
     @Query(value = "select * from HOTEL s where s.hotel_id in ?1", nativeQuery = true)
-    List<HotelDO> getHotelByIds(List<String> ids);
+    Page<HotelDO> getHotelByIds(List<String> ids, Pageable pageable);
 }

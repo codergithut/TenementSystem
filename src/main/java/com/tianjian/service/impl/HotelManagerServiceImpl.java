@@ -15,6 +15,8 @@ import com.tianjian.service.ServiceEnum;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     UserCurd userCurd;
 
     @Override
-    public ServiceMessage<List<HotelDO>> findHotelDO(String userId) {
+    public ServiceMessage<Page<HotelDO>> findHotelDO(String userId, Pageable pageable) {
         UserDO userDO = userCurd.findById(userId).get();
         List<HotelDO> datas = new ArrayList<>();
         if(userDO == null) {
@@ -47,7 +49,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         }
 
         if("USER".equals(userDO.getRole())) {
-            return new ServiceMessage<>(ServiceEnum.SUCCESS, hotelCurd.findAll());
+            return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.findAll(pageable));
         } else {
             List<String> hotelIds = new ArrayList<String>();
             List<HotelRelationUser> relationUsers = hotelRelationUserCurd.findByUserId(userId);
@@ -55,7 +57,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
                 relationUsers.forEach(t -> {
                     hotelIds.add(t.getHotelId());
                 });
-                return new ServiceMessage<>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds));
+                return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds, pageable));
             }
             return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
         }

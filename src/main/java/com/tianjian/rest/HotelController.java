@@ -11,6 +11,8 @@ import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.UserManagerService;
 import com.tianjian.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +30,6 @@ public class HotelController {
 
     @Autowired
     private HotelCurd hotelCurd;
-
-    @GetMapping("/search")
-    public ResponseData<List<HotelDO>> searchHotel(String userId) throws Exception {
-        ResponseData<List<HotelDO>> responseData = new ResponseData<>();
-        return responseData.buildResponseDataByCode(hotelManagerService.findHotelDO(userId));
-    }
 
     @GetMapping("/detail")
     public ResponseData<HotelDetail> searchHotelDetail(String hotelId) throws Exception {
@@ -56,11 +52,14 @@ public class HotelController {
         return responseData.buildResponseDataByCode(hotelManagerService.deleteHotelDO(hotelId));
     }
 
-    @GetMapping("/searhByUserid")
-    public ResponseData<List<HotelDO>> searchByUserId
-            (@RequestParam(value="userId",required=true) String userId) {
-        ResponseData<List<HotelDO>> responseData = new ResponseData<>();
-        return responseData.buildResponseDataByCode(hotelManagerService.findHotelDO(userId));
+    @GetMapping("/search")
+    public ResponseData<Page<HotelDO>> searchByUserId
+            (@RequestParam(value="userId",required=true) String userId,
+             @RequestParam(value="page",required=true) int page,
+             @RequestParam(value="pageSize",required=true) int pageSize) {
+        ResponseData<Page<HotelDO>> responseData = new ResponseData<>();
+        PageRequest pageRequest = new PageRequest(page, pageSize);
+        return responseData.buildResponseDataByCode(hotelManagerService.findHotelDO(userId, pageRequest));
     }
 
 
