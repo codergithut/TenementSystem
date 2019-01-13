@@ -29,7 +29,7 @@ public interface UserManagerService {
      * 查询所有用户
      * @return
      */
-    ServiceMessage<List<UserDO>> findUserDO();
+    ServiceMessage<List<UserDO>> findUserDO(String role);
 
     /**
      *

@@ -59,10 +59,10 @@ public class UserController {
      * 获取所有用户信息
      * @return 用户信息列表
      */
-    @GetMapping("/getAllUser")
-    public ResponseData<List<UserDO>> getAllUser() {
+    @GetMapping("/getAllUserByRole")
+    public ResponseData<List<UserDO>> getAllUser(String role) {
         ResponseData<List<UserDO>> responseData = new ResponseData<>();
-        return responseData.buildResponseDataByCode(userManagerService.findUserDO());
+        return responseData.buildResponseDataByCode(userManagerService.findUserDO(role));
     }
 
     /**

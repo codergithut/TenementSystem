@@ -77,8 +77,8 @@ public class UserManagerServiceImpl implements UserManagerService {
      * @return 用户列表
      */
     @Override
-    public ServiceMessage<List<UserDO>> findUserDO() {
-        return new ServiceMessage<>(ServiceEnum.SUCCESS, userCurd.findAll());
+    public ServiceMessage<List<UserDO>> findUserDO(String role) {
+        return new ServiceMessage<>(ServiceEnum.SUCCESS, userCurd.findByRole(role));
     }
 
 

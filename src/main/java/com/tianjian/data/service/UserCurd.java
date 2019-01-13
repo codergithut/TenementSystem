@@ -4,6 +4,8 @@ import com.tianjian.data.bean.UserDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by tianjian on 2018/11/29.
  * 用户信息添删改查
@@ -18,4 +20,11 @@ public interface UserCurd
      * @return 用户信息
      */
     UserDO findByAccount(String account);
+
+    /**
+     * 按照用户权限获取用户信息
+     * @param role 用户权限
+     * @return 用户信息列表
+     */
+    List<UserDO> findByRole(String role);
 }
