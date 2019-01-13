@@ -55,7 +55,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
 
         if("USER".equals(userDO.getRole())) {
             return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.findAll(pageable));
-        } else {
+        } else if("MANAGER".equals(userDO.getRole())){
             List<String> hotelIds = new ArrayList<String>();
             List<HotelRelationUser> relationUsers = hotelRelationUserCurd.findByUserId(userId);
             if(relationUsers != null && relationUsers.size() >0) {
@@ -64,8 +64,8 @@ public class HotelManagerServiceImpl implements HotelManagerService {
                 });
                 return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds, pageable));
             }
-            return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
         }
+        return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
 
     }
 
