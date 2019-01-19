@@ -55,12 +55,12 @@ public class RoomManagerServiceImpl implements RoomManagerService {
      * @return
      */
     @Override
-    public ServiceMessage<Boolean> addRoomInfo(RoomDO roomDO) {
+    public ServiceMessage<RoomDO> addRoomInfo(RoomDO roomDO) {
         if(StringUtils.isBlank(roomDO.getRoomId())) {
             roomDO.setRoomId(UUIDUtil.getPreUUID("ROOM"));
         }
-        roomCurd.save(roomDO);
-        return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
+        RoomDO rommDo = roomCurd.save(roomDO);
+        return new ServiceMessage<RoomDO>(ServiceEnum.SUCCESS, rommDo);
     }
 
     /**

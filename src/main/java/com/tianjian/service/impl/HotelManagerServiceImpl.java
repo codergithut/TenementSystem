@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tianjian.config.Constract.HOTELADMIN;
+import static com.tianjian.config.Constract.MANAGER;
+import static com.tianjian.config.Constract.USER;
+
 /**
  * 酒店管理业务
  * Created by tianjian on 2019/1/1.
@@ -53,9 +57,9 @@ public class HotelManagerServiceImpl implements HotelManagerService {
             return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
         }
 
-        if("USER".equals(userDO.getRole())) {
+        if(USER.equals(userDO.getRole()) || MANAGER.equals(userDO.getRole())) {
             return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.findAll(pageable));
-        } else if("MANAGER".equals(userDO.getRole())){
+        } else if(HOTELADMIN.equals(userDO.getRole())){
             List<String> hotelIds = new ArrayList<String>();
             List<HotelRelationUser> relationUsers = hotelRelationUserCurd.findByUserId(userId);
             if(relationUsers != null && relationUsers.size() >0) {

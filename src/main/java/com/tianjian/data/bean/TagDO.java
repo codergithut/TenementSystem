@@ -3,6 +3,7 @@ package com.tianjian.data.bean;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 标签数据
@@ -23,8 +24,30 @@ public class TagDO {
      */
     private String name;
 
+    private Date date;
+
+    private String operatingId;
+
 
     //set get .....
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getOperatingId() {
+        return operatingId;
+    }
+
+    public void setOperatingId(String operatingId) {
+        this.operatingId = operatingId;
+    }
+
     public String getTagId() {
         return tagId;
     }

@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static com.tianjian.config.Constract.HOTELADMIN;
+
 /**
  * Created by tianjian on 2018/12/31.
  */
@@ -61,7 +63,7 @@ public class UserManagerServiceImpl implements UserManagerService {
 
         UserDO user = userCurd.findById(userId).get();
 
-        if("MANAGER".equals(user.getRole())) {
+        if(HOTELADMIN.equals(user.getRole())) {
             clearRelation(userId);
         }
 
@@ -88,7 +90,7 @@ public class UserManagerServiceImpl implements UserManagerService {
      * @return 业务封装信息
      */
     @Override
-    public ServiceMessage editManager(UserManageModel userManageModel) {
+    public ServiceMessage<UserDO> editManager(UserManageModel userManageModel) {
         ResponseData responseData = new ResponseData();
         String userID = userManageModel.getUserId();
         UserDO userDO = new UserDO();
@@ -98,7 +100,7 @@ public class UserManagerServiceImpl implements UserManagerService {
         userDO.setPassword(userManageModel.getPassword());
         userDO.setEmail(userManageModel.getEmail());
 
-        if(userID != null && StringUtils.isNoneBlank(userID)) {
+        if(StringUtils.isBlank(userID)) {
             userDO.setUserId(userManageModel.getUserId());
             clearRelation(userID);
         } else {
@@ -122,7 +124,7 @@ public class UserManagerServiceImpl implements UserManagerService {
             }
         }
 
-        return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
+        return new ServiceMessage<>(ServiceEnum.SUCCESS, userDO);
 
     }
 

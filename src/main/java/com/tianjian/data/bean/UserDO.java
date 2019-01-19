@@ -7,6 +7,7 @@ package com.tianjian.data.bean;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 用户实体类
@@ -48,8 +49,30 @@ public class UserDO {
      */
     private String username;
 
+    private Date date;
+
+    private String operatingId;
+
 
     //set get .....
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getOperatingId() {
+        return operatingId;
+    }
+
+    public void setOperatingId(String operatingId) {
+        this.operatingId = operatingId;
+    }
+
     public String getUsername() {
         return username;
     }

@@ -14,7 +14,7 @@ public interface RoomManagerService {
 
     ServiceMessage<Boolean> deleteRoomByRoomId(String roomId);
 
-    ServiceMessage<Boolean> addRoomInfo(RoomDO roomDO);
+    ServiceMessage<RoomDO> addRoomInfo(RoomDO roomDO);
 
     ServiceMessage<Boolean> deleteRoomByHotelId(String hotelId);
 

@@ -3,6 +3,7 @@ package com.tianjian.data.bean;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 房间数据
@@ -39,7 +40,30 @@ public class RoomDO {
     private String hotelId;
 
 
+    private Date date;
+
+    private String operatingId;
+
+
     //set get .....
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getOperatingId() {
+        return operatingId;
+    }
+
+    public void setOperatingId(String operatingId) {
+        this.operatingId = operatingId;
+    }
+
     public String getName() {
         return name;
     }

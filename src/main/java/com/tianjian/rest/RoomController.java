@@ -32,9 +32,9 @@ public class RoomController {
      * @return 业务数据封装
      */
     @PostMapping("/add")
-    public ResponseData<Boolean> addRoom(@RequestBody RoomDO roomDO) {
-        ResponseData<Boolean> responseData = new ResponseData<Boolean>();
-        ServiceMessage<Boolean> data = roomManagerService.addRoomInfo(roomDO);
+    public ResponseData<RoomDO> addRoom(@RequestBody RoomDO roomDO) {
+        ResponseData<RoomDO> responseData = new ResponseData<RoomDO>();
+        ServiceMessage<RoomDO> data = roomManagerService.addRoomInfo(roomDO);
         return responseData.buildResponseDataByCode(data);
     }
 

@@ -71,8 +71,8 @@ public class UserController {
      * @return 业务封装信息
      */
     @PostMapping("/addManager")
-    public ResponseData editManager(@RequestBody UserManageModel userManageModel) {
-        ResponseData responseData = new ResponseData<>();
+    public ResponseData<UserDO> editManager(@RequestBody UserManageModel userManageModel) {
+        ResponseData<UserDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(userManagerService.editManager(userManageModel));
 
     }
