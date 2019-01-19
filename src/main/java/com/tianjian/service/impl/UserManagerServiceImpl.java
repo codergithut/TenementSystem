@@ -90,16 +90,16 @@ public class UserManagerServiceImpl implements UserManagerService {
     @Override
     public ServiceMessage editManager(UserManageModel userManageModel) {
         ResponseData responseData = new ResponseData();
-        String userID = userManageModel.getId();
+        String userID = userManageModel.getUserId();
         UserDO userDO = new UserDO();
-        userDO.setRole("MANAGER");
+        userDO.setRole(userManageModel.getRole());
         userDO.setUsername(userManageModel.getUsername());
         userDO.setAccount(userManageModel.getAccount());
         userDO.setPassword(userManageModel.getPassword());
         userDO.setEmail(userManageModel.getEmail());
 
         if(userID != null && StringUtils.isNoneBlank(userID)) {
-            userDO.setUserId(userManageModel.getId());
+            userDO.setUserId(userManageModel.getUserId());
             clearRelation(userID);
         } else {
             if(checkAccountInfo(userDO.getAccount())) {
@@ -113,12 +113,15 @@ public class UserManagerServiceImpl implements UserManagerService {
 
         String[] hotel = userManageModel.getHotel();
 
-        for(String hotelId : hotel) {
-            HotelRelationUser hotelRelationUser = new HotelRelationUser();
-            hotelRelationUser.setHotelId(hotelId);
-            hotelRelationUser.setUserId(userDO.getUserId());
-            hotelRelationUserManagerService.saveHotelRelationUser(hotelRelationUser);
+        if(hotel != null && hotel.length > 0) {
+            for(String hotelId : hotel) {
+                HotelRelationUser hotelRelationUser = new HotelRelationUser();
+                hotelRelationUser.setHotelId(hotelId);
+                hotelRelationUser.setUserId(userDO.getUserId());
+                hotelRelationUserManagerService.saveHotelRelationUser(hotelRelationUser);
+            }
         }
+
         return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
 
     }
@@ -144,5 +147,9 @@ public class UserManagerServiceImpl implements UserManagerService {
             return true;
         }
         return false;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
