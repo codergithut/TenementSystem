@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.tianjian.config.Constract.HOTELADMIN;
+import static com.tianjian.config.Constract.MANAGER;
 
 /**
  * Created by tianjian on 2018/12/31.
@@ -63,7 +64,7 @@ public class UserManagerServiceImpl implements UserManagerService {
 
         UserDO user = userCurd.findById(userId).get();
 
-        if(HOTELADMIN.equals(user.getRole())) {
+        if(MANAGER.equals(user.getRole())) {
             clearRelation(userId);
         }
 
@@ -101,13 +102,12 @@ public class UserManagerServiceImpl implements UserManagerService {
         userDO.setEmail(userManageModel.getEmail());
 
         if(StringUtils.isBlank(userID)) {
-            userDO.setUserId(userManageModel.getUserId());
-            clearRelation(userID);
-        } else {
             if(checkAccountInfo(userDO.getAccount())) {
                 return new ServiceMessage(ServiceEnum.DUPLICATION_NAME, null);
             }
             userDO.setUserId(UUID.randomUUID().toString());
+        } else {
+            clearRelation(userID);
         }
 
         userDO = userCurd.save(userDO);
