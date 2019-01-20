@@ -36,13 +36,13 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		String token = jwtUserService.saveUserLoginInfo((UserDetails)authentication.getPrincipal());
-		Map<String, String> authInfo = new HashMap<>();
+		Map<String, Object> authInfo = new HashMap<>();
 		authInfo.put("Authorization", token);
 		String accountName = ((UserDetails) authentication.getPrincipal()).getUsername();
 		UserDO userDO = userCurd.findByAccount(accountName);
-		authInfo.put("userid", userDO.getUserId());
-		ResponseData<Map<String,String>> responseData = new ResponseData<>();
-        responseData.setCode(1);
+		authInfo.put("userInfo", userDO);
+		ResponseData<Map<String, Object>> responseData = new ResponseData<>();
+        responseData.setCode(0);
         responseData.setMsg("login success");
         responseData.setData(authInfo);
 		response.setHeader("Authorization", token);

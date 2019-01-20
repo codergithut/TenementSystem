@@ -97,7 +97,7 @@ public class UserController {
      * @param userManageModel 酒店管理模型
      * @return 业务封装信息
      */
-    @PostMapping("/addManager")
+    @PostMapping("/addUser")
     public ResponseData<UserDO> editManager(@RequestBody UserManageModel userManageModel) {
         ResponseData<UserDO> responseData = new ResponseData<>();
         return responseData.buildResponseDataByCode(userManagerService.editManager(userManageModel));
