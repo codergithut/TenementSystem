@@ -26,5 +26,5 @@ public interface UserCurd
      * @param role 用户权限
      * @return 用户信息列表
      */
-    List<UserDO> findByRole(String role);
+    List<UserDO> findByRoleOrderByDateDesc(String role);
 }

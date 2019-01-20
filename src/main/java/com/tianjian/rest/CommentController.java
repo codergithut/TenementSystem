@@ -73,7 +73,7 @@ public class CommentController {
      * 获取所有的评论信息用于测试
      * @return 所有的评论信息
      */
-    @GetMapping("findAll")
+    @GetMapping("/findAll")
     public List<CommentDO> getAllComment() {
         return commentCurd.findAll();
     }

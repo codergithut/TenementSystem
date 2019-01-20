@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class TagManagerServiceImpl implements TagManagerService {
      */
     @Override
     public ServiceMessage<List<TagDO>> getTagDOByHotelId(String hotelId) {
-        List<HotelRelationTag> relationTags = hotelRelationTagCurd.findByHotelId(hotelId);
+        List<HotelRelationTag> relationTags = hotelRelationTagCurd.findByHotelIdOrderByDateDesc(hotelId);
         List<String> tagIds = new ArrayList<>();
         for(HotelRelationTag relation : relationTags) {
             tagIds.add(relation.getTagId());
@@ -63,7 +64,7 @@ public class TagManagerServiceImpl implements TagManagerService {
         /**
          * 清除tag关联信息
          */
-        List<HotelRelationTag> relations = hotelRelationTagCurd.findByTagId(tagId);
+        List<HotelRelationTag> relations = hotelRelationTagCurd.findByTagIdOrderByDateDesc(tagId);
         if(relations != null && relations.size() > 0) {
             hotelRelationTagCurd.deleteByTagId(tagId);
         }
@@ -98,6 +99,7 @@ public class TagManagerServiceImpl implements TagManagerService {
         if(StringUtils.isBlank(tagDO.getTagId())) {
             tagDO.setTagId(UUIDUtil.getPreUUID("TAG"));
         }
+        tagDO.setDate(new Date());
         tagCurd.save(tagDO);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
     }
@@ -112,6 +114,7 @@ public class TagManagerServiceImpl implements TagManagerService {
         if(StringUtils.isBlank(hotelRelationTag.getRelationId())) {
             hotelRelationTag.setRelationId(UUIDUtil.getPreUUID("RELATION:TAG-HOTEL"));
         }
+        hotelRelationTag.setDate(new Date());
         hotelRelationTagCurd.save(hotelRelationTag);
         return new ServiceMessage(ServiceEnum.SUCCESS, null);
     }

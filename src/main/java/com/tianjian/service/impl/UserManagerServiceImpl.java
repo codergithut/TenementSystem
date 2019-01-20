@@ -15,10 +15,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static com.tianjian.config.Constract.HOTELADMIN;
 import static com.tianjian.config.Constract.MANAGER;
 
 /**
@@ -81,7 +81,7 @@ public class UserManagerServiceImpl implements UserManagerService {
      */
     @Override
     public ServiceMessage<List<UserDO>> findUserDO(String role) {
-        return new ServiceMessage<>(ServiceEnum.SUCCESS, userCurd.findByRole(role));
+        return new ServiceMessage<>(ServiceEnum.SUCCESS, userCurd.findByRoleOrderByDateDesc(role));
     }
 
 
@@ -100,6 +100,7 @@ public class UserManagerServiceImpl implements UserManagerService {
         userDO.setAccount(userManageModel.getAccount());
         userDO.setPassword(userManageModel.getPassword());
         userDO.setEmail(userManageModel.getEmail());
+        userDO.setDate(new Date());
 
         if(StringUtils.isBlank(userID)) {
             if(checkAccountInfo(userDO.getAccount())) {
@@ -108,6 +109,7 @@ public class UserManagerServiceImpl implements UserManagerService {
             userDO.setUserId(UUID.randomUUID().toString());
         } else {
             clearRelation(userID);
+            userDO.setUserId(userID);
         }
 
         userDO = userCurd.save(userDO);
@@ -132,7 +134,7 @@ public class UserManagerServiceImpl implements UserManagerService {
      * 清除用户房间关联关系
      */
     private void clearRelation(String userId) {
-        List<HotelRelationUser> relations = hotelRelationUserCurd.findByUserId(userId);
+        List<HotelRelationUser> relations = hotelRelationUserCurd.findByUserIdOrderByDateDesc(userId);
         if(relations != null && relations.size() > 0 ) {
             hotelRelationUserCurd.deleteByUserId(userId);
         }

@@ -21,7 +21,7 @@ public interface HotelRelationTagCurd
      * @param hotelId 酒店ID
      * @return 关联关系实体
      */
-    List<HotelRelationTag> findByHotelId(String hotelId);
+    List<HotelRelationTag> findByHotelIdOrderByDateDesc(String hotelId);
 
     /**
      * 根据酒店ID删除关联关系
@@ -36,7 +36,7 @@ public interface HotelRelationTagCurd
      * @param tagId 标记ID
      * @return 关联关系对象
      */
-    List<HotelRelationTag> findByTagId(String tagId);
+    List<HotelRelationTag> findByTagIdOrderByDateDesc(String tagId);
 
     /**
      * 根据TagId删除关联关系

@@ -11,10 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,16 +54,18 @@ public class HotelManagerServiceImpl implements HotelManagerService {
      */
     @Override
     public ServiceMessage<Page<HotelDO>> findHotelDO(String userId, Pageable pageable) {
-        UserDO userDO = userCurd.findById(userId).get();
-        if(userDO == null) {
+        Optional<UserDO> userDOP = userCurd.findById(userId);
+        if(!userDOP.isPresent()) {
             return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
         }
+
+        UserDO userDO = userDOP.get();
 
         if(USER.equals(userDO.getRole()) || HOTELADMIN.equals(userDO.getRole())) {
             return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.findAll(pageable));
         } else if(MANAGER.equals(userDO.getRole())){
             List<String> hotelIds = new ArrayList<String>();
-            List<HotelRelationUser> relationUsers = hotelRelationUserCurd.findByUserId(userId);
+            List<HotelRelationUser> relationUsers = hotelRelationUserCurd.findByUserIdOrderByDateDesc(userId);
             if(relationUsers != null && relationUsers.size() >0) {
                 relationUsers.forEach(t -> {
                     hotelIds.add(t.getHotelId());
@@ -83,6 +87,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         if(StringUtils.isBlank(hotelDO.getHotelId())) {
             hotelDO.setHotelId(UUIDUtil.getPreUUID("HOTEL"));
         }
+        hotelDO.setDate(new Date());
         HotelDO save = hotelCurd.save(hotelDO);
         if(save != null) {
             return new ServiceMessage(ServiceEnum.SUCCESS,  save);
@@ -108,7 +113,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         /**
          * 清理房间信息
          */
-        List<RoomDO> rooms = roomCurd.findByHotelId(hotelId);
+        List<RoomDO> rooms = roomCurd.findByHotelIdOrderByDateDesc(hotelId);
         if(rooms != null && rooms.size() > 0) {
             roomCurd.deleteByHotelId(hotelId);
         }
@@ -116,7 +121,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         /**
          * 清理房间用户关联关系信息
          */
-        List<HotelRelationUser> users = hotelRelationUserCurd.findByHotelId(hotelId);
+        List<HotelRelationUser> users = hotelRelationUserCurd.findByHotelIdOrderByDateDesc(hotelId);
         if(users != null && users.size() > 0) {
             hotelRelationUserCurd.deleteByHotelId(hotelId);
         }
@@ -124,7 +129,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         /**
          * 清除酒店标签关系表
          */
-        List<HotelRelationTag> tags = hotelRelationTagCurd.findByHotelId(hotelId);
+        List<HotelRelationTag> tags = hotelRelationTagCurd.findByHotelIdOrderByDateDesc(hotelId);
         if(tags != null && tags.size() > 0) {
             hotelRelationTagCurd.deleteByHotelId(hotelId);
         }
@@ -151,7 +156,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         }
         hotelDetail.setHotelInfo(hotelDO.get());
 
-        List<RoomDO> rooms = roomCurd.findByHotelId(hotelId);
+        List<RoomDO> rooms = roomCurd.findByHotelIdOrderByDateDesc(hotelId);
         if(rooms != null && rooms.size() > 0) {
             hotelDetail.setRoomsInfo(rooms);
         }

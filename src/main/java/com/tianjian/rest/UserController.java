@@ -1,16 +1,22 @@
 package com.tianjian.rest;
 
+import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
 import com.tianjian.model.UserManageModel;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.HotelRelationUserManagerService;
+import com.tianjian.service.ServiceEnum;
 import com.tianjian.service.UserManagerService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.tianjian.config.Constract.MANAGER;
 
 /**
  * 用户信息数据接口
@@ -60,9 +66,30 @@ public class UserController {
      * @return 用户信息列表
      */
     @GetMapping("/getAllUserByRole")
-    public ResponseData<List<UserDO>> getAllUser(String role) {
-        ResponseData<List<UserDO>> responseData = new ResponseData<>();
-        return responseData.buildResponseDataByCode(userManagerService.findUserDO(role));
+    public ResponseData<List<UserManageModel>> getAllUser(String role) {
+        List<UserManageModel> datas = new ArrayList<UserManageModel>();
+        List<UserDO> userDOs = userManagerService.findUserDO(role).getData();
+        if(MANAGER.equals(role) && userDOs != null && userDOs.size() > 0 ) {
+            for(UserDO userDO : userDOs) {
+                UserManageModel userManageModel = new UserManageModel();
+                BeanUtils.copyProperties(userDO, userManageModel);
+                ServiceMessage<List<HotelRelationUser>> relations = hotelRelationUserManagerService
+                        .findHotelIDsByUserId(userDO.getUserId());
+                if(ServiceEnum.SUCCESS.getCode() == (relations.getServiceEnum().getCode())) {
+                    List<String> allHotel = new ArrayList<String>();
+                    if(relations != null && relations.getData() != null && relations.getData().size() > 0) {
+                        for(HotelRelationUser relationUser : relations.getData()) {
+                            allHotel.add(relationUser.getHotelId());
+                        }
+                    }
+                    userManageModel.setHotel(allHotel.toArray(new String[allHotel.size()]));
+                }
+
+                datas.add(userManageModel);
+            }
+        }
+
+        return new ResponseData<List<UserManageModel>>(ServiceEnum.SUCCESS.getMsg(),datas, ServiceEnum.SUCCESS.getCode());
     }
 
     /**

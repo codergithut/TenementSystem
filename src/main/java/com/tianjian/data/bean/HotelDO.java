@@ -45,6 +45,8 @@ public class HotelDO {
 
     private Date date;
 
+    private String averagePrice;
+
     //set get .....
 
     public String getHotelId() {
@@ -109,5 +111,13 @@ public class HotelDO {
 
     public void setStar(String star) {
         this.star = star;
+    }
+
+    public String getAveragePrice() {
+        return averagePrice;
+    }
+
+    public void setAveragePrice(String averagePrice) {
+        this.averagePrice = averagePrice;
     }
 }

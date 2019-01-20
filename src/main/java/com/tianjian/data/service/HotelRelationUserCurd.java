@@ -20,14 +20,14 @@ public interface HotelRelationUserCurd
      * @param userId 用户ID
      * @return 关系信息
      */
-    List<HotelRelationUser> findByUserId(String userId);
+    List<HotelRelationUser> findByUserIdOrderByDateDesc(String userId);
 
     /**
      * 根据HotelId获取关系信息
      * @param hotelId 酒店ID
      * @return 关系信息
      */
-    List<HotelRelationUser> findByHotelId(String hotelId);
+    List<HotelRelationUser> findByHotelIdOrderByDateDesc(String hotelId);
 
     /**
      * 根据酒店ID删除关系信息

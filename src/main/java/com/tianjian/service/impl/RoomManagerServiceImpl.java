@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class RoomManagerServiceImpl implements RoomManagerService {
      */
     @Override
     public ServiceMessage<List<RoomDO>> findRoomInfoByHotelId(String hotelId) {
-        List<RoomDO> roomDOS = roomCurd.findByHotelId(hotelId);
+        List<RoomDO> roomDOS = roomCurd.findByHotelIdOrderByDateDesc(hotelId);
         return new ServiceMessage<List<RoomDO>>(ServiceEnum.SUCCESS, roomDOS);
     }
 
@@ -59,6 +60,7 @@ public class RoomManagerServiceImpl implements RoomManagerService {
         if(StringUtils.isBlank(roomDO.getRoomId())) {
             roomDO.setRoomId(UUIDUtil.getPreUUID("ROOM"));
         }
+        roomDO.setDate(new Date());
         RoomDO rommDo = roomCurd.save(roomDO);
         return new ServiceMessage<RoomDO>(ServiceEnum.SUCCESS, rommDo);
     }
@@ -70,7 +72,7 @@ public class RoomManagerServiceImpl implements RoomManagerService {
      */
     @Override
     public ServiceMessage<Boolean> deleteRoomByHotelId(String hotelId) {
-        List<RoomDO>  datas = roomCurd.findByHotelId(hotelId);
+        List<RoomDO>  datas = roomCurd.findByHotelIdOrderByDateDesc(hotelId);
         if(datas == null && datas.size() == 0) {
             return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
         }

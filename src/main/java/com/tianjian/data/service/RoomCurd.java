@@ -20,7 +20,7 @@ public interface RoomCurd
      * @param hotelId 酒店ID
      * @return 房间信息
      */
-    List<RoomDO> findByHotelId(String hotelId);
+    List<RoomDO> findByHotelIdOrderByDateDesc(String hotelId);
 
     /**
      * 根据酒店ID删除对应的酒店房间信息

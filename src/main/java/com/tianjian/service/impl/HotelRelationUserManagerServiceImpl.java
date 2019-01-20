@@ -10,8 +10,10 @@ import com.tianjian.service.ServiceEnum;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +41,8 @@ public class HotelRelationUserManagerServiceImpl implements HotelRelationUserMan
         if(userDO == null) {
             return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
         }
-        List<HotelRelationUser> hotelRelationUsers = hotelRelationUserCurd.findByUserId(userID);
+        Sort sort = new Sort(Sort.Direction.DESC, "date");
+        List<HotelRelationUser> hotelRelationUsers = hotelRelationUserCurd.findByUserIdOrderByDateDesc(userID);
         return new ServiceMessage<List<HotelRelationUser>>(ServiceEnum.SUCCESS, hotelRelationUsers);
     }
 
@@ -53,6 +56,7 @@ public class HotelRelationUserManagerServiceImpl implements HotelRelationUserMan
         if(StringUtils.isBlank(hotelRelationUser.getRelationId())) {
             hotelRelationUser.setRelationId(UUIDUtil.getPreUUID("RELATION"));
         }
+        hotelRelationUser.setDate(new Date());
         HotelRelationUser data = hotelRelationUserCurd.save(hotelRelationUser);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, data);
     }

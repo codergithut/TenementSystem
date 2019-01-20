@@ -11,6 +11,7 @@ import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,11 +39,12 @@ public class CommentManagerServiceImpl implements CommentManagerService {
      */
     @Override
     public ServiceMessage<List<CommentDO>> findCommentDO(String roomId) {
+        Sort sort = new Sort(Sort.Direction.DESC, "date");
         List<CommentDO> datas = new ArrayList<>();
         CommentDO commentDO = new CommentDO();
         commentDO.setRoomId(roomId);
         Example<CommentDO> example = Example.of(commentDO);
-        List<CommentDO> all = commentCurd.findAll(example);
+        List<CommentDO> all = commentCurd.findAll(example,sort);
         datas.addAll(all);
         if(datas.size() > 0) {
             return new ServiceMessage(ServiceEnum.SUCCESS, datas);
@@ -67,7 +69,7 @@ public class CommentManagerServiceImpl implements CommentManagerService {
             return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
         }
         commentDO.setUsername(userDO.get().getUsername());
-        commentDO.setDate(new Date().toString());
+        commentDO.setDate(new Date());
         commentCurd.save(commentDO);
         return new ServiceMessage(ServiceEnum.SAVE_NULL,  null);
     }

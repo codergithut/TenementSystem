@@ -9,6 +9,7 @@ import com.tianjian.service.HotelManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,7 +80,7 @@ public class HotelController {
         if(page < 0 || pageSize < 0) {
             throw new PageInfoError();
         }
-        PageRequest pageRequest = new PageRequest(page, pageSize);
+        PageRequest pageRequest = new PageRequest(page, pageSize, Sort.Direction.DESC, "date");
         return responseData.buildResponseDataByCode(hotelManagerService.findHotelDO(userId, pageRequest));
     }
 

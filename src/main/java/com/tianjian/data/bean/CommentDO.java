@@ -3,6 +3,7 @@ package com.tianjian.data.bean;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 评论基础数据
@@ -36,7 +37,7 @@ public class CommentDO {
     /**
      * 评论时间
      */
-    private String date;
+    private Date date;
 
     /**
      * 评论内容
@@ -85,11 +86,11 @@ public class CommentDO {
         this.username = username;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }
