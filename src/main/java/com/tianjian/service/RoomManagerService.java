@@ -1,6 +1,7 @@
 package com.tianjian.service;
 
 import com.tianjian.data.bean.RoomDO;
+import com.tianjian.model.RoomDetail;
 import com.tianjian.model.ServiceMessage;
 
 import java.util.List;
@@ -18,6 +19,6 @@ public interface RoomManagerService {
 
     ServiceMessage<Boolean> deleteRoomByHotelId(String hotelId);
 
-    ServiceMessage<RoomDO> findRoomInfoByRoomId(String roomId);
+    ServiceMessage<RoomDetail> findRoomInfoByRoomId(String roomId);
 
 }

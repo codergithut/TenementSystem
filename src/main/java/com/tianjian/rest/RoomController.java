@@ -3,6 +3,7 @@ package com.tianjian.rest;
 import com.alibaba.fastjson.JSONObject;
 import com.tianjian.data.bean.RoomDO;
 import com.tianjian.data.service.RoomCurd;
+import com.tianjian.model.RoomDetail;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.service.RoomManagerService;
@@ -80,9 +81,9 @@ public class RoomController {
      * @return 返回数据封装
      */
     @GetMapping("/findRoomByRoomId")
-    public ResponseData<RoomDO> findByRoomId(String roomId) {
-        ResponseData<RoomDO> responseData = new ResponseData<>();
-        ServiceMessage<RoomDO> data = roomManagerService.findRoomInfoByRoomId(roomId);
+    public ResponseData<RoomDetail> findByRoomId(String roomId) {
+        ResponseData<RoomDetail> responseData = new ResponseData<>();
+        ServiceMessage<RoomDetail> data = roomManagerService.findRoomInfoByRoomId(roomId);
         return responseData.buildResponseDataByCode(data);
     }
 

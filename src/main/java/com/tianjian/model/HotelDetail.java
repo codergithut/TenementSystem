@@ -21,6 +21,8 @@ public class HotelDetail {
 
     private List<String> tags;
 
+    private String picUrl;
+
     /**
      * 酒店房间详情
      */
@@ -32,6 +34,14 @@ public class HotelDetail {
 
     public void setHotelRelationTags(List<HotelRelationTag> hotelRelationTags) {
         this.hotelRelationTags = hotelRelationTags;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 
     public List<String> getTags() {

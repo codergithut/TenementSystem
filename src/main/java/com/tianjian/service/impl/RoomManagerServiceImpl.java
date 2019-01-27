@@ -1,13 +1,17 @@
 package com.tianjian.service.impl;
 
+import com.tianjian.data.bean.RealtionFile;
 import com.tianjian.data.bean.RoomDO;
+import com.tianjian.data.service.RealtionFileDao;
 import com.tianjian.data.service.RoomCurd;
+import com.tianjian.model.RoomDetail;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.RoomManagerService;
 import com.tianjian.service.ServiceEnum;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,6 +27,12 @@ public class RoomManagerServiceImpl implements RoomManagerService {
 
     @Autowired
     RoomCurd roomCurd;
+
+    @Autowired
+    RealtionFileDao realtionFileDao;
+
+    @Value("${images.path}")
+    private String imagePath;
 
     /**
      * 根据酒店ID获取房间信息
@@ -86,7 +96,19 @@ public class RoomManagerServiceImpl implements RoomManagerService {
      * @return
      */
     @Override
-    public ServiceMessage<RoomDO> findRoomInfoByRoomId(String roomId) {
-        return new ServiceMessage<RoomDO>(ServiceEnum.SUCCESS, roomCurd.findById(roomId).get());
+    public ServiceMessage<RoomDetail> findRoomInfoByRoomId(String roomId) {
+        RoomDetail roomDetail = new RoomDetail();
+        Optional<RoomDO> roomDO = roomCurd.findById(roomId);
+        if(roomDO.isPresent()) {
+            roomDetail.setRoomDO(roomDO.get());
+        }
+
+        List<RealtionFile> realtionFiles = realtionFileDao.findByRealtionIdOrderByDateDesc(roomId);
+
+        if(realtionFiles != null && realtionFiles.size() > 0 ) {
+            roomDetail.setPicUrl(imagePath + realtionFiles.get(0).getResourceCode());
+        }
+
+        return new ServiceMessage<RoomDetail>(ServiceEnum.SUCCESS, roomDetail);
     }
 }

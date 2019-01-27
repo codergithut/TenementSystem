@@ -10,6 +10,7 @@ import com.tianjian.service.TagManagerService;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +50,13 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     RoomCurd roomCurd;
 
     @Autowired
+    RealtionFileDao realtionFileDao;
+
+    @Autowired
     UserCurd userCurd;
+
+    @Value("${images.path}")
+    private String imagePath;
 
     /**
      * 根据用户信息查找酒店信息
@@ -189,6 +196,12 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         }
         if(tags.size() > 0) {
             hotelDetail.setTags(tags);
+        }
+
+        List<RealtionFile> realtionFiles = realtionFileDao.findByRealtionIdOrderByDateDesc(hotelId);
+
+        if(realtionFiles != null && realtionFiles.size() > 0 ) {
+            hotelDetail.setPicUrl(imagePath + realtionFiles.get(0).getResourceCode());
         }
 
         List<RoomDO> rooms = roomCurd.findByHotelIdOrderByDateDesc(hotelId);
