@@ -42,13 +42,13 @@ public class HotelController {
 
     /**
      * 添加酒店信息
-     * @param hotelDO 酒店基础数据
+     * @param hotelDetail 酒店基础数据
      * @return 酒店信息
      */
     @PostMapping("/add")
-    public ResponseData<HotelDO> saveOrUpdate(@RequestBody HotelDO hotelDO) {
+    public ResponseData<HotelDO> saveOrUpdate(@RequestBody HotelDetail hotelDetail) {
         ResponseData<HotelDO> responseData = new ResponseData<>();
-        return responseData.buildResponseDataByCode(hotelManagerService.saveHotelDO(hotelDO));
+        return responseData.buildResponseDataByCode(hotelManagerService.saveHotelDO(hotelDetail));
     }
 
     /**

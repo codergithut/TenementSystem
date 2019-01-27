@@ -69,7 +69,7 @@ public class FileUploadController {
     @ResponseBody
     public ResponseData<List<RealtionFile>> getRealtionFiles(@RequestParam("relation_id") String relation_id) {
         ResponseData<RealtionFile> responseData = new ResponseData<>();
-        List<RealtionFile> realtionFiles = relationFileDao.findByRealtionId(relation_id);
+        List<RealtionFile> realtionFiles = relationFileDao.findByRealtionIdOrderByDateDesc(relation_id);
         realtionFiles.stream().forEach(realtionFile -> {
             realtionFile.setResourceCode(imagePath + realtionFile.getResourceCode());
         });
@@ -102,6 +102,7 @@ public class FileUploadController {
             realtionFile.setRelationFileId(UUIDUtil.getPreUUID("STATIC"));
             realtionFile.setResourceCode(digestName);
             realtionFile.setRealtionId(relation_id);
+            realtionFile.setDate(new Date());
             relationFileDao.save(realtionFile);
         }
         return new ResponseData<Boolean>("upload success", true, 000);

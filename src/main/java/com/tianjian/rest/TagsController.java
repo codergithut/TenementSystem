@@ -84,13 +84,13 @@ public class TagsController {
 
     /**
      * 添加酒店标签关系数据
-     * @param hotelRelationTag 酒店标签关系实体数据
+     * @param hotelRelationTags 酒店标签关系实体数据
      * @return 业务封装数据
      */
     @PostMapping("/relation/add")
-    public ResponseData<Boolean> addRelationTag(@RequestBody HotelRelationTag hotelRelationTag) {
+    public ResponseData<Boolean> addRelationTag(@RequestBody List<HotelRelationTag> hotelRelationTags) {
         ResponseData<Boolean> responseData = new ResponseData<>();
-        return responseData.buildResponseDataByCode(tagManagerService.saveHotelRealtionTag(hotelRelationTag));
+        return responseData.buildResponseDataByCode(tagManagerService.saveHotelRealtionTag(hotelRelationTags));
     }
 
     /**

@@ -4,6 +4,7 @@ package com.tianjian.data.bean;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
 @Table(name = "HOTEL_IMAGE_FILE")
@@ -25,6 +26,16 @@ public class RealtionFile {
      * 资源外部关联ID
      */
     private String realtionId;
+
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getResourceCode() {
         return resourceCode;

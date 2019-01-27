@@ -6,8 +6,6 @@ import com.tianjian.model.ServiceMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 /**
  * Created by tianjian on 2019/1/1.
  */
@@ -22,10 +20,10 @@ public interface HotelManagerService {
 
     /**
      * 保存酒店信息
-     * @param hotelDO
+     * @param hotelView
      * @return
      */
-    ServiceMessage<HotelDO> saveHotelDO(HotelDO hotelDO);
+    ServiceMessage<HotelDO> saveHotelDO(HotelDetail hotelView);
 
 
     /**

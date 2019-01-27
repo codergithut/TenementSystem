@@ -44,12 +44,97 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	JwtAuthenticationProvider jwtAuthenticationProvider;
 
 
+	/**
+	 * {
+	 “ USER ”：[
+	 “ / api / user / login ”，
+	 “ / api / user / addUser ”，
+	 “ / api / hotel / search ”，
+	 “ / api / hotel / detail ”，
+	 “ / api / room / findRoomByRoomId ”，
+	 “ / api / comment / add ”，
+	 “ / api / comment / search ”，
+	 “ / api / tag / search ”
+	 ]
+	 “ MANAGER ”：[
+	 “ / api / user / login ”，
+	 “ / api / user / addUser ”，
+	 “ / api / hotel / search ”，
+	 “ / api / hotel / detail ”，
+	 “ / api / room / findRoomByRoomId ”，
+	 “ / api / room / add ”，
+	 “ / api / room / deleteByRoomId ”，
+	 “ / api / room / findRoomByHotelId ”，
+	 “ / api / room / deleteByRoomId ”，
+	 “/ api / comment / add “，
+	 “ / api / comment / search ”，
+	 “ / api / tag / search ”
+	 ]
+	 “ HOTELADMIN ”：[
+	 “ / api / user / login ”，
+	 “ / api / user / addUser ”，
+	 “ / api / user / getAllUserByRole ”，
+	 “ / api / user / unregister ”，
+	 “ / api / hotel / search ”，
+	 “ / api / hotel / detail ”，
+	 “ / api / room / findRoomByRoomId ”，
+	 “ / api / comment / add ”，
+	 “ / api / comment / search ”，
+	 “/ api / tag / search “，
+	 “ / api / tag / add ”，
+	 “ / api / tag / delete ”
+	 ]
+	 }
+	 * @param http
+	 * @throws Exception
+	 */
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		        .antMatchers("/image/**", "/**").permitAll()
-//				.antMatchers("/api/search/**").hasAnyRole("ADMIN", "USER", "MANAGE")
-//		        .antMatchers("/api/edit/**").hasRole("MANAGE")
-//				.antMatchers("/api/assigna/authority").hasAnyRole("ADMIN")
+				.antMatchers(
+						"/api/user/login",
+						"/api/user/addUser",
+						"/api/hotel/search",
+						"/api/hotel/detail",
+						"/api/room/findRoomByRoomId",
+						"/api/comment/add",
+						"/api/comment/search",
+						"/api/tag/search",
+						"/api/room/add",
+						"/api/room/deleteByRoomId",
+						"/api/room/findRoomByHotelId",
+						"/api/comment/add",
+						"/api/comment/search",
+						"/api/tag/search"
+				).hasAnyRole("USER")
+				.antMatchers(
+						"/api/user/login",
+						"/api/user/addUser",
+						"/api/hotel/search",
+						"/api/hotel/detail",
+						"/api/room/findRoomByRoomId",
+						"/api/room/add",
+						"/api/room/deleteByRoomId",
+						"/api/room/findRoomByHotelId",
+						"/api/room/deleteByRoomId",
+						"/api/comment/add",
+						"/api/comment/search",
+						"/api/tag/search"
+				).hasAnyRole("MANAGER")
+				.antMatchers(
+						"/api/user/login",
+						"/api/user/addUser",
+						"/api/user/getAllUserByRole",
+						"/api/user/unregister",
+						"/api/hotel/search",
+						"/api/hotel/detail",
+						"/api/room/findRoomByRoomId",
+						"/api/comment/add",
+						"/api/comment/search",
+						"/api/tag/search",
+						"/api/tag/add",
+						"/api/tag/delete"
+				).hasAnyRole("HOTELADMIN")
 		        .anyRequest().authenticated()
 		        .and()
 		    .csrf().disable()

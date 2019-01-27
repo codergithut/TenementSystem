@@ -112,16 +112,20 @@ public class TagManagerServiceImpl implements TagManagerService {
 
     /**
      * 保存酒店标签关系对象
-     * @param hotelRelationTag 酒店标签关系对象
+     * @param hotelRelationTags 酒店标签关系对象
      * @return 业务封装对象
      */
     @Override
-    public ServiceMessage saveHotelRealtionTag(HotelRelationTag hotelRelationTag) {
-        if(StringUtils.isBlank(hotelRelationTag.getRelationId())) {
-            hotelRelationTag.setRelationId(UUIDUtil.getPreUUID("RELATION:TAG-HOTEL"));
+    public ServiceMessage saveHotelRealtionTag(List<HotelRelationTag> hotelRelationTags) {
+
+        for(HotelRelationTag hotelRelationTag : hotelRelationTags) {
+            if(StringUtils.isBlank(hotelRelationTag.getRelationId())) {
+                hotelRelationTag.setRelationId(UUIDUtil.getPreUUID("RELATION:TAG-HOTEL"));
+            }
+            hotelRelationTag.setDate(new Date());
+            hotelRelationTagCurd.save(hotelRelationTag);
         }
-        hotelRelationTag.setDate(new Date());
-        hotelRelationTagCurd.save(hotelRelationTag);
+
         return new ServiceMessage(ServiceEnum.SUCCESS, null);
     }
 }

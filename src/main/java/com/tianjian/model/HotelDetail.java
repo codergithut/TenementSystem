@@ -1,6 +1,7 @@
 package com.tianjian.model;
 
 import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.bean.HotelRelationTag;
 import com.tianjian.data.bean.RoomDO;
 
 import java.util.List;
@@ -16,10 +17,30 @@ public class HotelDetail {
      */
     private HotelDO hotelInfo;
 
+    private List<HotelRelationTag> hotelRelationTags;
+
+    private List<String> tags;
+
     /**
      * 酒店房间详情
      */
     private List<RoomDO> roomsInfo;
+
+    public List<HotelRelationTag> getHotelRelationTags() {
+        return hotelRelationTags;
+    }
+
+    public void setHotelRelationTags(List<HotelRelationTag> hotelRelationTags) {
+        this.hotelRelationTags = hotelRelationTags;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
     //set get
     public HotelDO getHotelInfo() {

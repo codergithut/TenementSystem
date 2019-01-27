@@ -21,7 +21,7 @@ public interface TagManagerService {
 
     ServiceMessage saveTagDO(TagDO tagDO);
 
-    ServiceMessage saveHotelRealtionTag(HotelRelationTag hotelRelationTag);
+    ServiceMessage saveHotelRealtionTag(List<HotelRelationTag> hotelRelationTags);
 
     ServiceMessage<List<HotelRelationTag>> getHotelRelationTag(List<String> tags);
 }

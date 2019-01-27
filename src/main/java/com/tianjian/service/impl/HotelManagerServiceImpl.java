@@ -6,13 +6,14 @@ import com.tianjian.model.HotelDetail;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.HotelManagerService;
 import com.tianjian.service.ServiceEnum;
+import com.tianjian.service.TagManagerService;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ public class HotelManagerServiceImpl implements HotelManagerService {
 
     @Autowired
     HotelRelationTagCurd hotelRelationTagCurd;
+
+    @Autowired
+    TagCurd tagCurd;
 
     @Autowired
     RoomCurd roomCurd;
@@ -79,16 +83,24 @@ public class HotelManagerServiceImpl implements HotelManagerService {
 
     /**
      * 保存酒店信息
-     * @param hotelDO 酒店信息基础数据
+     * @param hotelView 酒店信息基础数据
      * @return 业务信息封装
      */
     @Override
-    public ServiceMessage<HotelDO> saveHotelDO(HotelDO hotelDO) {
+    public ServiceMessage<HotelDO> saveHotelDO(HotelDetail hotelView) {
+        HotelDO hotelDO = hotelView.getHotelInfo();
+        List<HotelRelationTag> hotelRelationTags = hotelView.getHotelRelationTags();
         if(StringUtils.isBlank(hotelDO.getHotelId())) {
             hotelDO.setHotelId(UUIDUtil.getPreUUID("HOTEL"));
         }
         hotelDO.setDate(new Date());
         HotelDO save = hotelCurd.save(hotelDO);
+        for (HotelRelationTag hotelRelationTag : hotelRelationTags) {
+            if(StringUtils.isBlank(hotelRelationTag.getRelationId())) {
+                hotelRelationTag.setRelationId(UUIDUtil.getPreUUID("RELATION:TAG-HOTEL"));
+            }
+        }
+        hotelRelationTagCurd.saveAll(hotelRelationTags);
         if(save != null) {
             return new ServiceMessage(ServiceEnum.SUCCESS,  save);
         } else {
@@ -154,7 +166,23 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         if(!hotelDO.isPresent()) {
             return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
         }
+
+        List<HotelRelationTag> hotelRelationTag = hotelRelationTagCurd.findByHotelIdOrderByDateDesc(hotelId);
         hotelDetail.setHotelInfo(hotelDO.get());
+        hotelDetail.setHotelRelationTags(hotelRelationTag);
+
+        List<String> tags = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(hotelRelationTag)) {
+            for(HotelRelationTag hotelRelationTag1 : hotelRelationTag) {
+                Optional<TagDO> tag = tagCurd.findById(hotelRelationTag1.getTagId());
+                if(tag.isPresent()) {
+                    tags.add(tag.get().getName());
+                }
+            }
+        }
+        if(tags.size() > 0) {
+            hotelDetail.setTags(tags);
+        }
 
         List<RoomDO> rooms = roomCurd.findByHotelIdOrderByDateDesc(hotelId);
         if(rooms != null && rooms.size() > 0) {

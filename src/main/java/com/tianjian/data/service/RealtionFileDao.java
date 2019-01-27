@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface RealtionFileDao extends JpaRepository<RealtionFile, String> {
-    List<RealtionFile> findByRealtionId(String relationId);
+
+    List<RealtionFile> findByRealtionIdOrderByDateDesc(String relationId);
 }
