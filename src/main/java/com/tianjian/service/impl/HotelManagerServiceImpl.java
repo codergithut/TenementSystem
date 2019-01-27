@@ -11,6 +11,7 @@ import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -92,11 +93,17 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         List<HotelRelationTag> hotelRelationTags = hotelView.getHotelRelationTags();
         if(StringUtils.isBlank(hotelDO.getHotelId())) {
             hotelDO.setHotelId(UUIDUtil.getPreUUID("HOTEL"));
+        } else {
+            hotelRelationTagCurd.deleteByHotelId(hotelDO.getHotelId());
         }
+
         hotelDO.setDate(new Date());
         HotelDO save = hotelCurd.save(hotelDO);
+
         for (HotelRelationTag hotelRelationTag : hotelRelationTags) {
             if(StringUtils.isBlank(hotelRelationTag.getRelationId())) {
+                hotelRelationTag.setDate(new Date());
+                hotelRelationTag.setHotelId(hotelDO.getHotelId());
                 hotelRelationTag.setRelationId(UUIDUtil.getPreUUID("RELATION:TAG-HOTEL"));
             }
         }
@@ -190,6 +197,17 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         }
 
         return new ServiceMessage(ServiceEnum.SUCCESS,  hotelDetail);
+    }
+
+    @Override
+    public ServiceMessage<Page<HotelDO>> getHotelByTags(List<String> tagIds, Pageable pageable) {
+
+        List<String> hotelIds = new ArrayList<String>();
+        List<HotelRelationTag> hotelRelationTags = hotelRelationTagCurd.findHotelIdsByTagIds(tagIds);
+        for(HotelRelationTag hotelRelationTag : hotelRelationTags) {
+            hotelIds.add(hotelRelationTag.getTagId());
+        }
+        return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds, pageable));
     }
 
 }

@@ -1,14 +1,18 @@
 package com.tianjian.rest;
 
 import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.bean.TagDO;
 import com.tianjian.data.service.HotelCurd;
 import com.tianjian.exception.PageInfoError;
 import com.tianjian.model.HotelDetail;
+import com.tianjian.model.ServiceMessage;
+import com.tianjian.model.TagQuery;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.service.HotelManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,8 +100,11 @@ public class HotelController {
     }
 
     @GetMapping("/getHotelByTag")
-    public ResponseData<HotelDO> getHotelByTags() {
-        return null;
+    public ResponseData<Page<HotelDO>> getHotelByTags(TagQuery tagQuery) {
+        ResponseData<Page<HotelDO>> responseData = new ResponseData<>();
+        Pageable pageable = new PageRequest(tagQuery.getPage(), tagQuery.getPageSize());
+        ServiceMessage<Page<HotelDO>> datas = hotelManagerService.getHotelByTags(tagQuery.getTags(),pageable);
+        return responseData.buildResponseDataByCode(datas);
     }
 
 }

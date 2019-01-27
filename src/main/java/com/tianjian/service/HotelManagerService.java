@@ -1,10 +1,13 @@
 package com.tianjian.service;
 
 import com.tianjian.data.bean.HotelDO;
+import com.tianjian.data.bean.TagDO;
 import com.tianjian.model.HotelDetail;
 import com.tianjian.model.ServiceMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Created by tianjian on 2019/1/1.
@@ -35,4 +38,6 @@ public interface HotelManagerService {
 
 
     ServiceMessage<HotelDetail> getHotelDetail(String hotelId);
+
+    ServiceMessage<Page<HotelDO>> getHotelByTags(List<String> tagIds, Pageable pageable);
 }
