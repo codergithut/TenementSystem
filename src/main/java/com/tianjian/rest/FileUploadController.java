@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/images")
 public class FileUploadController {
 
     private final StorageService storageService;
@@ -39,7 +40,7 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/show")
     public String listUploadedFiles(Model model) throws IOException {
 
         model.addAttribute("files", storageService.loadAll().map(
@@ -59,7 +60,7 @@ public class FileUploadController {
     }
 
 
-    @GetMapping("/getFiles")
+    @GetMapping("/getFilesByRelation")
     @ResponseBody
     public ResponseData<List<RealtionFile>> getRealtionFiles(@RequestParam("relation_id") String relation_id) {
         ResponseData<RealtionFile> responseData = new ResponseData<>();
@@ -68,8 +69,17 @@ public class FileUploadController {
 
     }
 
-    @PostMapping("/")
-    public String handleFileUpload(
+    @GetMapping("/deleteRelationData")
+    @ResponseBody
+    public ResponseData<Boolean> deleteRelationData(@RequestParam("relationFileId") String relationId) {
+        relationFileDao.deleteById(relationId);
+        return new ResponseData<Boolean>("success", true, 000);
+
+    }
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public ResponseData<Boolean> handleFileUpload(
             @RequestParam("file") MultipartFile[] file,
             @RequestParam("relation_id") String relation_id,
             RedirectAttributes redirectAttributes
@@ -86,11 +96,7 @@ public class FileUploadController {
             realtionFile.setRealtionId(relation_id);
             relationFileDao.save(realtionFile);
         }
-
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded !");
-
-        return "redirect:/";
+        return new ResponseData<Boolean>("upload success", true, 000);
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

@@ -3,6 +3,7 @@ package com.tianjian.data.service;
 import com.tianjian.data.bean.HotelRelationTag;
 import com.tianjian.data.bean.HotelRelationUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -45,6 +46,9 @@ public interface HotelRelationTagCurd
      */
     @Transactional
     Integer deleteByTagId(String tagId);
+
+    @Query(value = "select * from HOTEL_RELATION_TAG s where s.tag_id in ?1", nativeQuery = true)
+    List<HotelRelationTag> findHotelIdsByTagIds(List<String> tagIds);
 
 
 }

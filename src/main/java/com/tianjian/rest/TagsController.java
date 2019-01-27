@@ -51,6 +51,16 @@ public class TagsController {
     }
 
     /**
+     * 根据酒店ID后去标签信息
+     * @return 标签列表
+     */
+    @GetMapping("/searchHotelIdsByTagsIds")
+    public ResponseData<List<HotelRelationTag>> searchHotelIdsByTagsIds(List<String> tagsIds) {
+        ResponseData<List<HotelRelationTag>> responseData = new ResponseData<>();
+        return responseData.buildResponseDataByCode(tagManagerService.getHotelRelationTag(tagsIds));
+    }
+
+    /**
      * 添加标签信息
      * @param tagDO 标签信息
      * @return 业务封装

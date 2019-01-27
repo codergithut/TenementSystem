@@ -53,6 +53,12 @@ public class TagManagerServiceImpl implements TagManagerService {
         return new ServiceMessage<>(ServiceEnum.SUCCESS, allTags);
     }
 
+    @Override
+    public ServiceMessage<List<HotelRelationTag>> getHotelRelationTag(List<String> tags) {
+        List<HotelRelationTag> datas = hotelRelationTagCurd.findHotelIdsByTagIds(tags);
+        return new ServiceMessage<>(ServiceEnum.SUCCESS, datas);
+    }
+
     /**
      * 根据标签ID删除标签
      * @param tagId 标签ID
