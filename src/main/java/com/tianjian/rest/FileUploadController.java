@@ -4,10 +4,12 @@ import com.tianjian.data.bean.RealtionFile;
 import com.tianjian.data.service.RealtionFileDao;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.storage.StorageFileNotFoundException;
+import com.tianjian.storage.StorageProperties;
 import com.tianjian.storage.StorageService;
 import com.tianjian.util.MsgDigestDemo;
 import com.tianjian.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,9 @@ public class FileUploadController {
 
     @Autowired
     RealtionFileDao relationFileDao;
+
+    @Value("${images.path}")
+    private String imagePath;
 
     @Autowired
     public FileUploadController(StorageService storageService) {
@@ -65,6 +70,9 @@ public class FileUploadController {
     public ResponseData<List<RealtionFile>> getRealtionFiles(@RequestParam("relation_id") String relation_id) {
         ResponseData<RealtionFile> responseData = new ResponseData<>();
         List<RealtionFile> realtionFiles = relationFileDao.findByRealtionId(relation_id);
+        realtionFiles.stream().forEach(realtionFile -> {
+            realtionFile.setResourceCode(imagePath + realtionFile.getResourceCode());
+        });
         return new ResponseData<List<RealtionFile>>("success", realtionFiles, 000);
 
     }

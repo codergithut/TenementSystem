@@ -22,3 +22,6 @@ debug: true
 logging:
   level:
     org.springframework.security: INFO
+
+images:
+    path: images/files/
