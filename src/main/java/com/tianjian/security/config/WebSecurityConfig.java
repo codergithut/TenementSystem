@@ -59,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 						"/api/hotel/detail",
 						"/api/hotel/search",
 						"/**")
-				.hasAnyRole("MANAGER","HOTELADMIN","USER")
+				.permitAll()
+//				.hasAnyRole("MANAGER","HOTELADMIN","USER")
 				.antMatchers(
 						"/api/room/add",
 						"/api/room/deleteByRoomId",

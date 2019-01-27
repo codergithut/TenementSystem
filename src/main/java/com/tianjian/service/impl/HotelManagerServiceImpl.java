@@ -217,8 +217,11 @@ public class HotelManagerServiceImpl implements HotelManagerService {
 
         List<String> hotelIds = new ArrayList<String>();
         List<HotelRelationTag> hotelRelationTags = hotelRelationTagCurd.findHotelIdsByTagIds(tagIds);
+        if(CollectionUtils.isEmpty(hotelRelationTags)) {
+            return new ServiceMessage<>(ServiceEnum.SUCCESS,null);
+        }
         for(HotelRelationTag hotelRelationTag : hotelRelationTags) {
-            hotelIds.add(hotelRelationTag.getTagId());
+            hotelIds.add(hotelRelationTag.getHotelId());
         }
         return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds, pageable));
     }
