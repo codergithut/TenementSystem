@@ -23,8 +23,8 @@ public class ScheduledTasks {
     @Scheduled(fixedRate = 5000)
     @Async
     public void reportCurrentTime() {
-        log.info("The time is now {}", dateFormat.format(new Date()));
-        System.out.println("The time is now {}" + dateFormat.format(new Date()));
+//        log.info("The time is now {}", dateFormat.format(new Date()));
+//        System.out.println("The time is now {}" + dateFormat.format(new Date()));
     }
 
     public final static long ONE_Minute =  60 * 1000;
@@ -32,19 +32,19 @@ public class ScheduledTasks {
     @Scheduled(fixedDelay=ONE_Minute)
     @Async
     public void fixedDelayJob(){
-        System.out.println(" >>fixedDelay执行....");
+//        System.out.println(" >>fixedDelay执行....");
     }
 
     @Scheduled(fixedRate=ONE_Minute)
     @Async
     public void fixedRateJob(){
-        System.out.println(" >>fixedRate执行....");
+//        System.out.println(" >>fixedRate执行....");
     }
 
     @Scheduled(cron="0 15 3 * * ?")
     @Async
     public void cronJob(){
-        System.out.println((new Date())+" >>cron执行....");
+//        System.out.println((new Date())+" >>cron执行....");
     }
 
 }

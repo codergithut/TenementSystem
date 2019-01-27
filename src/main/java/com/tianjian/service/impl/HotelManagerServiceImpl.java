@@ -82,6 +82,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
                 relationUsers.forEach(t -> {
                     hotelIds.add(t.getHotelId());
                 });
+                //todo 代码 查询酒店有问题
                 return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds, pageable));
             }
         }
@@ -212,15 +213,18 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         return new ServiceMessage(ServiceEnum.SUCCESS,  hotelDetail);
     }
 
+    //todo 代码 查询酒店有问题
     @Override
     public ServiceMessage<Page<HotelDO>> getHotelByTags(List<String> tagIds, Pageable pageable) {
 
         List<String> hotelIds = new ArrayList<String>();
         List<HotelRelationTag> hotelRelationTags = hotelRelationTagCurd.findHotelIdsByTagIds(tagIds);
         if(CollectionUtils.isEmpty(hotelRelationTags)) {
+            System.out.println("=============关系数据查询为空=============");
             return new ServiceMessage<>(ServiceEnum.SUCCESS,null);
         }
         for(HotelRelationTag hotelRelationTag : hotelRelationTags) {
+            System.out.println("================酒店id:" + hotelRelationTag.getHotelId() + "=============");
             hotelIds.add(hotelRelationTag.getHotelId());
         }
         return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds, pageable));

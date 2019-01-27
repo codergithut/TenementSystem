@@ -49,7 +49,7 @@ public class CommentManagerServiceImpl implements CommentManagerService {
         if(datas.size() > 0) {
             return new ServiceMessage(ServiceEnum.SUCCESS, datas);
         } else {
-            return new ServiceMessage(ServiceEnum.SEARCH_NULL, null);
+            return new ServiceMessage(ServiceEnum.SUCCESS, null);
         }
 
     }
@@ -71,7 +71,7 @@ public class CommentManagerServiceImpl implements CommentManagerService {
         commentDO.setUsername(userDO.get().getUsername());
         commentDO.setDate(new Date());
         commentCurd.save(commentDO);
-        return new ServiceMessage(ServiceEnum.SAVE_NULL,  null);
+        return new ServiceMessage(ServiceEnum.SUCCESS,  null);
     }
 
     /**
