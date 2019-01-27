@@ -99,8 +99,8 @@ public class HotelController {
         return hotelCurd.findAll();
     }
 
-    @GetMapping("/getHotelByTag")
-    public ResponseData<Page<HotelDO>> getHotelByTags(TagQuery tagQuery) {
+    @PostMapping("/getHotelByTag")
+    public ResponseData<Page<HotelDO>> getHotelByTags(@RequestBody TagQuery tagQuery) {
         ResponseData<Page<HotelDO>> responseData = new ResponseData<>();
         Pageable pageable = new PageRequest(tagQuery.getPage(), tagQuery.getPageSize());
         ServiceMessage<Page<HotelDO>> datas = hotelManagerService.getHotelByTags(tagQuery.getTags(),pageable);
