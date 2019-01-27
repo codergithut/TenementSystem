@@ -95,4 +95,9 @@ public class HotelController {
         return hotelCurd.findAll();
     }
 
+    @GetMapping("/getHotelByTag")
+    public ResponseData<HotelDO> getHotelByTags() {
+        return null;
+    }
+
 }

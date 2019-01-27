@@ -1,7 +1,11 @@
 package com.tianjian;
 
+import com.tianjian.storage.StorageProperties;
+import com.tianjian.storage.StorageService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -24,23 +28,19 @@ import java.util.Map;
 @SpringBootApplication
 @EnableScheduling
 @Controller
+@EnableConfigurationProperties(StorageProperties.class)
 public class Example{
-
-    @GetMapping("/")
-    public String home(Map<String, Object> model) {
-        model.put("message", "Hello World");
-        model.put("title", "Hello Home");
-        model.put("date", new Date());
-        return "home";
-    }
-
-    @RequestMapping("/foo")
-    public String foo() {
-        throw new RuntimeException("Expected exception in controller");
-    }
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(Example.class).run(args);
+    }
+
+    @Bean
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+//            storageService.deleteAll();
+            storageService.init();
+        };
     }
 
 }

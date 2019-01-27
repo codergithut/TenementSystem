@@ -1,15 +1,23 @@
 spring:
-  thymeleaf:
-    cache: false
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-  datasource:
-    url: jdbc:hsqldb:file:~/.h2/testdb222
-    username: sa
-    password: sa
-    driverClassName: org.hsqldb.jdbcDriver
+    servlet:
+      multipart:
+        max-file-size: 1024KB
+        max-request-size: 1024KB
+    http:
+      multipart:
+        enabled: false
+    thymeleaf:
+      cache: false
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: update
+    datasource:
+      url: jdbc:hsqldb:file:~/.h2/resouce
+      username: sa
+      password: sa
+      driverClassName: org.hsqldb.jdbcDriver
+
 debug: true
 logging:
   level:
