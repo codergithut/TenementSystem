@@ -48,44 +48,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		        .antMatchers(
 		        		"/images/files/**",
-						"/images/getFilesByRelation","/**").permitAll()
-				.antMatchers(
+						"/images/getFilesByRelation",
+						"/api/hotel/getHotelByTag",
 						"/api/user/login",
+						"/api/tag/search",
 						"/api/user/addUser",
-						"/api/hotel/search",
-						"/api/hotel/detail",
-						"/api/room/findRoomByRoomId",
 						"/api/comment/add",
 						"/api/comment/search",
-						"/api/tag/search"
-				).hasAnyRole("USER")
-				.antMatchers(
-						"/api/user/login",
-						"/api/user/addUser",
-						"/api/hotel/search",
-						"/api/hotel/detail",
 						"/api/room/findRoomByRoomId",
+						"/api/hotel/detail",
+						"/api/hotel/search").permitAll()
+				.antMatchers(
+
+						"/api/hotel/add",
 						"/api/room/add",
 						"/api/room/deleteByRoomId",
 						"/api/room/findRoomByHotelId",
 						"/api/room/deleteByRoomId",
-						"/api/comment/add",
-						"/api/comment/search",
-						"/api/tag/search",
 						"/images/upload",
 						"/images/deleteRelationData"
 				).hasAnyRole("MANAGER")
 				.antMatchers(
-						"/api/user/login",
-						"/api/user/addUser",
 						"/api/user/getAllUserByRole",
 						"/api/user/unregister",
-						"/api/hotel/search",
-						"/api/hotel/detail",
-						"/api/room/findRoomByRoomId",
-						"/api/comment/add",
-						"/api/comment/search",
-						"/api/tag/search",
 						"/api/tag/add",
 						"/api/tag/delete"
 				).hasAnyRole("HOTELADMIN")
