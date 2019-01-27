@@ -46,7 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests()
-		        .antMatchers("/image/**", "/**").permitAll()
+		        .antMatchers(
+		        		"/images/files/**",
+						"/images/getFilesByRelation").permitAll()
 				.antMatchers(
 						"/api/user/login",
 						"/api/user/addUser",
@@ -69,7 +71,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 						"/api/room/deleteByRoomId",
 						"/api/comment/add",
 						"/api/comment/search",
-						"/api/tag/search"
+						"/api/tag/search",
+						"/images/upload",
+						"/images/deleteRelationData"
 				).hasAnyRole("MANAGER")
 				.antMatchers(
 						"/api/user/login",
