@@ -104,4 +104,6 @@ password 账号密码
 email 账号邮箱
 role 用户权限
 
+http://localhost:8080/h2-console  数据库连接url jdbc:hsqldb:file:~/.h2/resouce 用户名密码 sa sa
+
 
