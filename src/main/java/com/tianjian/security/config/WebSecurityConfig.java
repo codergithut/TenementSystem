@@ -92,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		    .and()
 		    .apply(new JwtLoginConfigurer<>()).tokenValidSuccessHandler(jwtRefreshSuccessHandler)
 				.permissiveRequestUrls("/logout")
-		    .and()
+		    .and().headers().frameOptions().disable().and()
 		    .logout()
 //		        .logoutUrl("/logout")   //默认就是"/logout"
 		        .addLogoutHandler(tokenClearLogoutHandler)
