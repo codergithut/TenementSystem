@@ -1,5 +1,6 @@
 package com.tianjian.data.bean;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -37,6 +38,7 @@ public class HotelDO {
     /**
      * 酒店信息
      */
+    @Column(length = 20000)
     private String content;
 
     private String star;

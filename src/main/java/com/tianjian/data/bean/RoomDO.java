@@ -1,5 +1,6 @@
 package com.tianjian.data.bean;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -32,6 +33,7 @@ public class RoomDO {
     /**
      * 房间描述
      */
+    @Column(length = 20000)
     private String content;
 
     /**
