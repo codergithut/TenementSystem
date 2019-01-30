@@ -9,6 +9,8 @@ import com.tianjian.service.ServiceEnum;
 import com.tianjian.service.TagManagerService;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -33,6 +35,8 @@ import static com.tianjian.config.Constract.USER;
  */
 @Service
 public class HotelManagerServiceImpl implements HotelManagerService {
+
+    private Logger logger = LoggerFactory.getLogger(HotelManagerServiceImpl.class);
 
     @Autowired
     HotelCurd hotelCurd;
@@ -82,10 +86,10 @@ public class HotelManagerServiceImpl implements HotelManagerService {
                 relationUsers.forEach(t -> {
                     hotelIds.add(t.getHotelId());
                 });
-                //todo 代码 查询酒店有问题
                 return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds, pageable));
             }
         }
+        logger.warn("user is role error userId={}", userId);
         return new ServiceMessage<>(ServiceEnum.SUCCESS, null);
 
     }
@@ -119,6 +123,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         if(save != null) {
             return new ServiceMessage(ServiceEnum.SUCCESS,  save);
         } else {
+            logger.warn("save hotelinfo fail hotelView=", hotelView);
             return new ServiceMessage(ServiceEnum.SAVE_NULL,  null);
         }
 
@@ -134,6 +139,7 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     public ServiceMessage deleteHotelDO(String hotelId) {
         Optional<HotelDO> hotelDO = hotelCurd.findById(hotelId);
         if(!hotelDO.isPresent()) {
+            logger.info("can not find hotelId by hotelId={}", hotelId);
             return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
         }
 
@@ -179,8 +185,10 @@ public class HotelManagerServiceImpl implements HotelManagerService {
 
         Optional<HotelDO> hotelDO = hotelCurd.findById(hotelId);
         if(!hotelDO.isPresent()) {
+            logger.warn("can not get hotelInfo by hotelId={}", hotelId);
             return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
         }
+
 
         List<HotelRelationTag> hotelRelationTag = hotelRelationTagCurd.findByHotelIdOrderByDateDesc(hotelId);
         hotelDetail.setHotelInfo(hotelDO.get());
@@ -213,18 +221,15 @@ public class HotelManagerServiceImpl implements HotelManagerService {
         return new ServiceMessage(ServiceEnum.SUCCESS,  hotelDetail);
     }
 
-    //todo 代码 查询酒店有问题
     @Override
     public ServiceMessage<Page<HotelDO>> getHotelByTags(List<String> tagIds, Pageable pageable) {
 
         List<String> hotelIds = new ArrayList<String>();
         List<HotelRelationTag> hotelRelationTags = hotelRelationTagCurd.findHotelIdsByTagIds(tagIds);
         if(CollectionUtils.isEmpty(hotelRelationTags)) {
-            System.out.println("=============关系数据查询为空=============");
             return new ServiceMessage<>(ServiceEnum.SUCCESS,null);
         }
         for(HotelRelationTag hotelRelationTag : hotelRelationTags) {
-            System.out.println("================酒店id:" + hotelRelationTag.getHotelId() + "=============");
             hotelIds.add(hotelRelationTag.getHotelId());
         }
         return new ServiceMessage<Page<HotelDO>>(ServiceEnum.SUCCESS, hotelCurd.getHotelByIds(hotelIds, pageable));

@@ -1,21 +1,13 @@
 package com.tianjian.rest;
 
-import com.alibaba.fastjson.JSON;
 import com.tianjian.data.bean.CommentDO;
-import com.tianjian.data.bean.UserDO;
-import com.tianjian.data.service.CommentCurd;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.service.CommentManagerService;
-import com.tianjian.service.HotelManagerService;
-import com.tianjian.service.UserManagerService;
-import com.tianjian.util.UUIDUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 用户评论对外暴露接口
@@ -63,19 +55,6 @@ public class CommentController {
         ResponseData responseData = new ResponseData<>();
         ServiceMessage<List<CommentDO>> data = commentManagerService.deleteCommentDO(commentId);
         return responseData.buildResponseDataByCode(data);
-    }
-
-    //todo delete test
-    @Autowired
-    CommentCurd commentCurd;
-
-    /**
-     * 获取所有的评论信息用于测试
-     * @return 所有的评论信息
-     */
-    @GetMapping("/findAll")
-    public List<CommentDO> getAllComment() {
-        return commentCurd.findAll();
     }
 
 }

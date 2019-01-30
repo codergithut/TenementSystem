@@ -12,6 +12,8 @@ import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.UserManagerService;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ import static com.tianjian.config.Constract.MANAGER;
  */
 @Service
 public class UserManagerServiceImpl implements UserManagerService {
+
+    private Logger logger = LoggerFactory.getLogger(UserManagerServiceImpl.class);
 
     @Autowired
     UserCurd userCurd;
@@ -44,6 +48,7 @@ public class UserManagerServiceImpl implements UserManagerService {
     public ServiceMessage<Boolean> registerUser(UserDO userDO) {
 
         if(checkAccountInfo(userDO.getAccount())) {
+            logger.warn("user account duplication userDO={}", userDO);
             return new ServiceMessage(ServiceEnum.DUPLICATION_NAME, null);
         }
 
@@ -69,6 +74,7 @@ public class UserManagerServiceImpl implements UserManagerService {
         }
 
         if(user == null) {
+            logger.warn("can not find user userId=",userId);
             return new ServiceMessage(ServiceEnum.NOT_FIND_NAME, null);
         }
         userCurd.delete(user);

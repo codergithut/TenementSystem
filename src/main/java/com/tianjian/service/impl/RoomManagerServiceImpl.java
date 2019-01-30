@@ -10,6 +10,8 @@ import com.tianjian.service.RoomManagerService;
 import com.tianjian.service.ServiceEnum;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ import java.util.Optional;
  */
 @Service
 public class RoomManagerServiceImpl implements RoomManagerService {
+
+    private Logger logger = LoggerFactory.getLogger(HotelManagerServiceImpl.class);
 
     @Autowired
     RoomCurd roomCurd;
@@ -54,6 +58,7 @@ public class RoomManagerServiceImpl implements RoomManagerService {
     public ServiceMessage<Boolean> deleteRoomByRoomId(String roomId) {
         Optional<RoomDO> data = roomCurd.findById(roomId);
         if(!data.isPresent()) {
+            logger.info("can not find room by roomId={}", roomId);
             return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
         }
         roomCurd.deleteById(roomId);
@@ -84,6 +89,7 @@ public class RoomManagerServiceImpl implements RoomManagerService {
     public ServiceMessage<Boolean> deleteRoomByHotelId(String hotelId) {
         List<RoomDO>  datas = roomCurd.findByHotelIdOrderByDateDesc(hotelId);
         if(datas == null && datas.size() == 0) {
+            logger.warn("can not find room by hotelId=",hotelId);
             return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
         }
         roomCurd.deleteByHotelId(hotelId);
@@ -106,6 +112,7 @@ public class RoomManagerServiceImpl implements RoomManagerService {
         List<RealtionFile> realtionFiles = realtionFileDao.findByRealtionIdOrderByDateDesc(roomId);
 
         if(realtionFiles != null && realtionFiles.size() > 0 ) {
+            logger.warn("can not find room by roomId=",roomId);
             roomDetail.setPicUrl(imagePath + realtionFiles.get(0).getResourceCode());
         }
 

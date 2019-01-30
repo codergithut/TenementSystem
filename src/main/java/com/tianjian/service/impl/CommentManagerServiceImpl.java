@@ -4,11 +4,14 @@ import com.tianjian.data.bean.CommentDO;
 import com.tianjian.data.bean.UserDO;
 import com.tianjian.data.service.CommentCurd;
 import com.tianjian.data.service.UserCurd;
+import com.tianjian.init.ServerStartedReport;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.CommentManagerService;
 import com.tianjian.service.ServiceEnum;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
@@ -25,6 +28,8 @@ import java.util.Optional;
  */
 @Service
 public class CommentManagerServiceImpl implements CommentManagerService {
+
+    private Logger logger = LoggerFactory.getLogger(CommentManagerServiceImpl.class);
 
     @Autowired
     CommentCurd commentCurd;
@@ -49,6 +54,7 @@ public class CommentManagerServiceImpl implements CommentManagerService {
         if(datas.size() > 0) {
             return new ServiceMessage(ServiceEnum.SUCCESS, datas);
         } else {
+            logger.info("can not find comment rootId={}", roomId);
             return new ServiceMessage(ServiceEnum.SUCCESS, null);
         }
 
@@ -83,6 +89,7 @@ public class CommentManagerServiceImpl implements CommentManagerService {
     public ServiceMessage deleteCommentDO(String commentId) {
         Optional<CommentDO> datas = commentCurd.findById(commentId);
         if(!datas.isPresent()) {
+            logger.info("delete comment fail commentId={}", commentId);
             return new ServiceMessage(ServiceEnum.DELETE_NOT_FOUND, null);
         }
         commentCurd.deleteById(commentId);

@@ -9,6 +9,8 @@ import com.tianjian.service.HotelRelationUserManagerService;
 import com.tianjian.service.ServiceEnum;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ import java.util.Optional;
  */
 @Service
 public class HotelRelationUserManagerServiceImpl implements HotelRelationUserManagerService {
+
+    private Logger logger = LoggerFactory.getLogger(HotelManagerServiceImpl.class);
 
     @Autowired
     private HotelRelationUserCurd hotelRelationUserCurd;
@@ -39,6 +43,7 @@ public class HotelRelationUserManagerServiceImpl implements HotelRelationUserMan
     public ServiceMessage<List<HotelRelationUser>> findHotelIDsByUserId(String userID) {
         UserDO userDO = userCurd.findById(userID).get();
         if(userDO == null) {
+            logger.warn("can not find hotel realtion userId={}", userID);
             return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, null);
         }
         Sort sort = new Sort(Sort.Direction.DESC, "date");
@@ -70,6 +75,7 @@ public class HotelRelationUserManagerServiceImpl implements HotelRelationUserMan
     public ServiceMessage deleteHotelRelationUser(String relationId) {
         Optional<HotelRelationUser> data = hotelRelationUserCurd.findById(relationId);
         if(!data.isPresent()) {
+            logger.warn("can not find hotel and user realtion relationId={}", relationId);
             return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
         }
         hotelRelationUserCurd.deleteById(relationId);

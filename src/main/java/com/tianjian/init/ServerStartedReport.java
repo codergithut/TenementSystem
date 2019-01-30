@@ -1,6 +1,8 @@
 package com.tianjian.init;
 import com.tianjian.data.bean.UserDO;
 import com.tianjian.data.service.UserCurd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -23,6 +25,8 @@ import static com.tianjian.config.Constract.HOTELADMIN;
 @Component
 public class ServerStartedReport implements CommandLineRunner{
 
+    private Logger logger = LoggerFactory.getLogger(ServerStartedReport.class);
+
     private static final String ROOTID = "ROOT";
 
 
@@ -36,6 +40,7 @@ public class ServerStartedReport implements CommandLineRunner{
         if(userDOList != null && userDOList.size() > 0) {
             for(UserDO user : userDOList) {
                 if(HOTELADMIN.equals(user.getRole())) {
+                    logger.info("system hava HOTELADMIN role");
                     return ;
                 }
             }

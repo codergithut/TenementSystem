@@ -9,6 +9,8 @@ import com.tianjian.service.ServiceEnum;
 import com.tianjian.service.TagManagerService;
 import com.tianjian.util.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ import java.util.List;
  */
 @Service
 public class TagManagerServiceImpl implements TagManagerService {
+    private Logger logger = LoggerFactory.getLogger(TagManagerServiceImpl.class);
 
     @Autowired
     TagCurd tagCurd;
@@ -76,6 +79,7 @@ public class TagManagerServiceImpl implements TagManagerService {
         }
 
         if(!tagCurd.findById(tagId).isPresent()) {
+            logger.warn("can not find hotel tag realtion tagId", tagId);
             return new ServiceMessage(ServiceEnum.FAIL_FIND_RECORD,null);
         }
 
