@@ -83,7 +83,7 @@ public class UserController {
     public ResponseData<Boolean> activePassword(@RequestBody UserActive userActive) {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
         ServiceMessage<Boolean> data = userManagerService.activeUser
-                (userActive.getAccount(), userActive.getCode());
+                (userActive.getUserId(), userActive.getCode());
         return responseData.buildResponseDataByCode(data);
     }
 
@@ -130,5 +130,28 @@ public class UserController {
         return responseData.buildResponseDataByCode(userManagerService.editManager(userManageModel));
 
     }
+
+    /**
+     * 获取所有用户信息
+     * @return 用户信息列表
+     */
+    @GetMapping("/getUserInfoByMail")
+    public ResponseData<UserDO> getUserByMail(String email) {
+        ResponseData<UserDO> responseData = new ResponseData<>();
+        return responseData.buildResponseDataByCode(userManagerService.getUserByMail(email));
+    }
+
+    /**
+     * 获取所有用户信息
+     * @return 用户信息列表
+     */
+    @GetMapping("/checkMail")
+    public ResponseData<Boolean> checkMail(String email) {
+        ResponseData<Boolean> responseData = new ResponseData<>();
+        return responseData.buildResponseDataByCode(userManagerService.checkMail(email));
+    }
+
+
+
 
 }

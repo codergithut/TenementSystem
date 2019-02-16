@@ -26,8 +26,8 @@ public class CodeManagerController {
     @PostMapping(value = "/getCodeToEmail")
     public ResponseData<Boolean> sendCodeToEmail(@RequestBody CodeMessage codeMessage) {
         ResponseData<Boolean> responseData = new ResponseData<>();
-        UserDO userDO = userCurd.findByAccount(codeMessage.getAccount());
-        if(userDO != null) {
+        UserDO userDO = userCurd.findById(codeMessage.getUserId()).get();
+        if(userDO == null) {
             ServiceMessage<Boolean> data = new ServiceMessage<Boolean>(ServiceEnum.NOT_FIND_NAME,false);
             return responseData.buildResponseDataByCode(data);
         }

@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
  */
 public class UserActive {
 
-    private String account;
+    private String userId;
 
     private String code;
 
@@ -20,18 +20,18 @@ public class UserActive {
         this.code = code;
     }
 
-    public String getAccount() {
-        return account;
+
+    public String getUserId() {
+        return userId;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public static void main(String[] args) {
         UserActive userActive = new UserActive();
         userActive.setCode("userID");
-        userActive.setAccount("test");
         System.out.println(JSON.toJSONString(userActive));
     }
 }

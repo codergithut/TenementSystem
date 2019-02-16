@@ -16,6 +16,7 @@ public enum ServiceEnum {
     MAIL_FAIL(8,"邮件发送失败"),
     CODE_ERROR(9,"验证码验证失败"),
     UNACTIVE_ERROR(10,"账号未激活"),
+    EMAIL_ERROR(11, "邮箱已注册，请换邮箱重试"),
     SUCCESS(0, "业务成功");
 
 

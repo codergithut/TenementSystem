@@ -27,4 +27,6 @@ public interface UserCurd
      * @return 用户信息列表
      */
     List<UserDO> findByRoleOrderByDateDesc(String role);
+
+    UserDO findByEmail(String email);
 }

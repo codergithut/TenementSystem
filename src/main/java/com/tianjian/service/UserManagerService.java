@@ -42,4 +42,7 @@ public interface UserManagerService {
 
     ServiceMessage<Boolean> resetUser(String userId, String passWord, String code);
 
+    ServiceMessage<UserDO> getUserByMail(String mail);
+
+    ServiceMessage<Boolean> checkMail(String email);
 }

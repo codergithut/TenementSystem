@@ -145,8 +145,8 @@ public class UserManagerServiceImpl implements UserManagerService {
     }
 
     @Override
-    public ServiceMessage<Boolean> activeUser(String account, String code) {
-        UserDO userDO = userCurd.findByAccount(account);
+    public ServiceMessage<Boolean> activeUser(String userId, String code) {
+        UserDO userDO = userCurd.findById(userId).get();
         ServiceMessage<Boolean> checkResult = codeManager.checkCodeMessage("active", code, userDO.getUserId());
         if(checkResult.getData()) {
             if(userDO == null) {
@@ -178,6 +178,25 @@ public class UserManagerServiceImpl implements UserManagerService {
         } else {
             return checkResult;
         }
+    }
+
+    @Override
+    public ServiceMessage<UserDO> getUserByMail(String mail) {
+        UserDO user = userCurd.findByEmail(mail);
+        UserDO userDO = new UserDO();
+        userDO.setEmail(user.getEmail());
+        userDO.setUserId(user.getUserId());
+        userDO.setAccount(user.getAccount());
+        return new ServiceMessage<>(ServiceEnum.SUCCESS, userDO);
+    }
+
+    @Override
+    public ServiceMessage<Boolean> checkMail(String email) {
+        UserDO userDO = getUserByMail(email).getData();
+        if(userDO.getUserId() != null) {
+            return new ServiceMessage<>(ServiceEnum.EMAIL_ERROR, false);
+        }
+        return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
     }
 
     /**
