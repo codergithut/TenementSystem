@@ -1,12 +1,12 @@
 spring:
     mail:
-      password: gxstmrxpxllqfife
-      username: 1468195034@qq.com
+      password: l1016482011
+      username: 15151837009@163.com
       default-encoding: UTF-8
       port: 587
       properties.mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
       properties.mail.debug: true
-      host: smtp.qq.com
+      host: smtp.163.com
 
     h2:
       console:

@@ -47,11 +47,7 @@ public class CodeManagerImpl implements CodeManager {
             + "</html>"; // 可以用HTMl语言写
 
     @Override
-    public ServiceMessage<Boolean> sendCodeToMessage(String type, Long expireTime, String userId) {
-        Optional<UserDO> userDO = userCurd.findById(userId);
-        if(!userDO.isPresent()) {
-            return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME,false);
-        }
+    public ServiceMessage<Boolean> sendCodeToMessage(String type, Long expireTime, String userId, String email) {
         CodeLogDO codeLogDO = new CodeLogDO();
         Date date = new Date();
         codeLogDO.setCode(UUID.randomUUID().toString());
@@ -61,7 +57,7 @@ public class CodeManagerImpl implements CodeManager {
         codeLogDO.setRefId(userId);
 
         boolean result =JMailUtil.sendMessageToUser
-                (mailSender, userDO.get().getEmail(), fromMail, content.replace("${CODE}", codeLogDO.getCode()));
+                (mailSender, email, fromMail, content.replace("${CODE}", codeLogDO.getCode()));
 
         if(result) {
             codeLogCurd.save(codeLogDO);

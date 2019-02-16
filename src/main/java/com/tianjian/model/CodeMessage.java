@@ -16,7 +16,7 @@ public class CodeMessage {
      */
     private Long expireTime;
 
-    private String userId;
+    private String refId;
 
     public String getType() {
         return type;
@@ -34,11 +34,11 @@ public class CodeMessage {
         this.expireTime = expireTime;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getRefId() {
+        return refId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setRefId(String refId) {
+        this.refId = refId;
     }
 }
