@@ -38,4 +38,8 @@ public interface UserManagerService {
      */
     ServiceMessage editManager(UserManageModel userManageModel);
 
+    ServiceMessage<Boolean> activeUser(String userId, String code);
+
+    ServiceMessage<Boolean> resetUser(String userId, String passWord, String code);
+
 }

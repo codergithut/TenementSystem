@@ -13,6 +13,9 @@ public enum ServiceEnum {
     FAIL(5,"系统错误，请联系管理员"),
     FAIL_FIND_RECORD(6,"未能找到记录"),
     DELETE_NOT_FOUND(7,"删除失败未能找到相关记录"),
+    MAIL_FAIL(8,"邮件发送失败"),
+    CODE_ERROR(9,"验证码验证失败"),
+    UNACTIVE_ERROR(10,"账号未激活"),
     SUCCESS(0, "业务成功");
 
 

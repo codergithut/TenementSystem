@@ -43,6 +43,10 @@ public class UserDO {
      */
     private String role;
 
+    /**
+     * 是否激活 1 激活 0 未激活
+     */
+    private int active;
 
     /**
      * 用户名称
@@ -121,5 +125,11 @@ public class UserDO {
         this.role = role;
     }
 
+    public int getActive() {
+        return active;
+    }
 
+    public void setActive(int active) {
+        this.active = active;
+    }
 }

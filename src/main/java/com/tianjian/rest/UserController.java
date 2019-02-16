@@ -2,7 +2,9 @@ package com.tianjian.rest;
 
 import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
+import com.tianjian.model.UserActive;
 import com.tianjian.model.UserManageModel;
+import com.tianjian.model.UserRest;
 import com.tianjian.model.view.ResponseData;
 import com.tianjian.model.ServiceMessage;
 import com.tianjian.service.HotelManagerService;
@@ -57,6 +59,31 @@ public class UserController {
             String userId) {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
         ServiceMessage<Boolean> data = userManagerService.unRegisterUser(userId);
+        return responseData.buildResponseDataByCode(data);
+    }
+
+    /**
+     * 用户密码重置
+     * @param
+     * @return 业务封装
+     */
+    @PostMapping("/resetPassword")
+    public ResponseData<Boolean> resetPassword(@RequestBody UserRest userRest) {
+        ResponseData<Boolean> responseData = new ResponseData<Boolean>();
+        ServiceMessage<Boolean> data = userManagerService.resetUser
+                (userRest.getUserId(), userRest.getPassword(), userRest.getCode());
+        return responseData.buildResponseDataByCode(data);
+    }
+
+    /**
+     * 用户激活
+     * @return
+     */
+    @PostMapping("/activeUser")
+    public ResponseData<Boolean> activePassword(@RequestBody UserActive userActive) {
+        ResponseData<Boolean> responseData = new ResponseData<Boolean>();
+        ServiceMessage<Boolean> data = userManagerService.activeUser
+                (userActive.getAccount(), userActive.getCode());
         return responseData.buildResponseDataByCode(data);
     }
 

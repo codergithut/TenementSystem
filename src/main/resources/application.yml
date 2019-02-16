@@ -1,4 +1,13 @@
 spring:
+    mail:
+      password: gxstmrxpxllqfife
+      username: 1468195034@qq.com
+      default-encoding: UTF-8
+      port: 587
+      properties.mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+      properties.mail.debug: true
+      host: smtp.qq.com
+
     h2:
       console:
         path: /h2-console
@@ -17,7 +26,7 @@ spring:
       hibernate:
         ddl-auto: update
     datasource:
-      url: jdbc:hsqldb:file:~/.h2/resouce
+      url: jdbc:hsqldb:file:~/.h2/resouce1
       username: sa
       password: sa
       driverClassName: org.hsqldb.jdbcDriver

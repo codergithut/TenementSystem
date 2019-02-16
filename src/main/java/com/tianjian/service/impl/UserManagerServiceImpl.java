@@ -1,11 +1,14 @@
 package com.tianjian.service.impl;
 
+import com.tianjian.data.bean.CodeLogDO;
 import com.tianjian.data.bean.HotelRelationUser;
 import com.tianjian.data.bean.UserDO;
+import com.tianjian.data.service.CodeLogCurd;
 import com.tianjian.data.service.HotelRelationUserCurd;
 import com.tianjian.data.service.UserCurd;
 import com.tianjian.model.UserManageModel;
 import com.tianjian.model.view.ResponseData;
+import com.tianjian.service.CodeManager;
 import com.tianjian.service.HotelRelationUserManagerService;
 import com.tianjian.service.ServiceEnum;
 import com.tianjian.model.ServiceMessage;
@@ -17,8 +20,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.management.OperatingSystemMXBean;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.tianjian.config.Constract.MANAGER;
@@ -39,6 +44,9 @@ public class UserManagerServiceImpl implements UserManagerService {
 
     @Autowired
     HotelRelationUserCurd hotelRelationUserCurd;
+
+    @Autowired
+    CodeManager codeManager;
 
     /**
      * 注册用户
@@ -136,6 +144,42 @@ public class UserManagerServiceImpl implements UserManagerService {
 
     }
 
+    @Override
+    public ServiceMessage<Boolean> activeUser(String userId, String code) {
+        ServiceMessage<Boolean> checkResult = codeManager.checkCodeMessage("active", code);
+        if(checkResult.getData()) {
+            UserDO userDO = userCurd.findByAccount(userId);
+            if(userDO == null) {
+                return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, false);
+            }
+            userDO.setActive(1);
+            userCurd.save(userDO);
+            return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
+        } else {
+            return checkResult;
+        }
+    }
+
+    @Override
+    public ServiceMessage<Boolean> resetUser(String userId, String password, String code) {
+        ServiceMessage<Boolean> checkResult = codeManager.checkCodeMessage("reset", code);
+        if(checkResult.getData()) {
+            Optional<UserDO> userDO = userCurd.findById(userId);
+            if(!userDO.isPresent()) {
+                return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, false);
+            }
+            UserDO updateUser = userDO.get();
+            if(updateUser.getActive() != 1) {
+                return new ServiceMessage<>(ServiceEnum.CODE_ERROR, false);
+            }
+            updateUser.setPassword(password);
+            userCurd.save(updateUser);
+            return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
+        } else {
+            return checkResult;
+        }
+    }
+
     /**
      * 清除用户房间关联关系
      */
@@ -157,9 +201,5 @@ public class UserManagerServiceImpl implements UserManagerService {
             return true;
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-
     }
 }

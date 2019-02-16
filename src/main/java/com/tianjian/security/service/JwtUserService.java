@@ -58,10 +58,14 @@ public class JwtUserService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserDO userDO = userDao.findByAccount(username);
-		System.out.println("Name:" + userDO.getAccount() + ",PWD:" + userDO.getPassword());
-		return User.builder().username(userDO.getAccount())
-				.password(passwordEncoder.encode(userDO.getPassword()))
-				.roles(userDO.getRole()).build();
+		if(userDO.getActive() == 1) {
+			return User.builder().username(userDO.getAccount())
+					.password(passwordEncoder.encode(userDO.getPassword()))
+					.roles(userDO.getRole()).build();
+		} else {
+			return null;
+		}
+
 	}
 	
 	public void createUser(String username, String password) {
