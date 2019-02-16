@@ -68,12 +68,12 @@ public class CodeManagerImpl implements CodeManager {
     }
 
     @Override
-    public ServiceMessage<Boolean> checkCodeMessage(String type, String code) {
+    public ServiceMessage<Boolean> checkCodeMessage(String type, String code, String resourceId) {
         Optional<CodeLogDO> codeLogDO = codeLogCurd.findById(code);
         if(codeLogDO.isPresent()) {
             long exprieTime = codeLogDO.get().getCreateTime() + codeLogDO.get().getExpireTime();
             long now = new Date().getTime();
-            if(now < exprieTime && type.equals(codeLogDO.get().getType())) {
+            if(now < exprieTime && type.equals(codeLogDO.get().getType()) && resourceId.equals(codeLogDO.get().getRefId())) {
                 return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
             }
         }

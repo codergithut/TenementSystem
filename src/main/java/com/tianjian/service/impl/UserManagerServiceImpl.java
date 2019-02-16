@@ -145,10 +145,10 @@ public class UserManagerServiceImpl implements UserManagerService {
     }
 
     @Override
-    public ServiceMessage<Boolean> activeUser(String userId, String code) {
-        ServiceMessage<Boolean> checkResult = codeManager.checkCodeMessage("active", code);
+    public ServiceMessage<Boolean> activeUser(String account, String code) {
+        UserDO userDO = userCurd.findByAccount(account);
+        ServiceMessage<Boolean> checkResult = codeManager.checkCodeMessage("active", code, userDO.getUserId());
         if(checkResult.getData()) {
-            UserDO userDO = userCurd.findByAccount(userId);
             if(userDO == null) {
                 return new ServiceMessage<>(ServiceEnum.NOT_FIND_NAME, false);
             }
@@ -162,7 +162,7 @@ public class UserManagerServiceImpl implements UserManagerService {
 
     @Override
     public ServiceMessage<Boolean> resetUser(String userId, String password, String code) {
-        ServiceMessage<Boolean> checkResult = codeManager.checkCodeMessage("reset", code);
+        ServiceMessage<Boolean> checkResult = codeManager.checkCodeMessage("reset", code, userId);
         if(checkResult.getData()) {
             Optional<UserDO> userDO = userCurd.findById(userId);
             if(!userDO.isPresent()) {

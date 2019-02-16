@@ -7,5 +7,5 @@ import com.tianjian.model.ServiceMessage;
  */
 public interface CodeManager {
     ServiceMessage<Boolean> sendCodeToMessage(String type, Long expireTime, String userId, String email);
-    ServiceMessage<Boolean> checkCodeMessage(String type, String code);
+    ServiceMessage<Boolean> checkCodeMessage(String type, String code, String resourceId);
 }
