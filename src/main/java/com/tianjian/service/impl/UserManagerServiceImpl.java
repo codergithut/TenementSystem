@@ -48,6 +48,9 @@ public class UserManagerServiceImpl implements UserManagerService {
     @Autowired
     CodeManager codeManager;
 
+    @Autowired
+    CodeLogCurd codeLogCurd;
+
     /**
      * 注册用户
      * @param userDO 用户模型数据
@@ -154,6 +157,7 @@ public class UserManagerServiceImpl implements UserManagerService {
             }
             userDO.setActive(1);
             userCurd.save(userDO);
+            codeLogCurd.deleteById(code);
             return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
         } else {
             return checkResult;
@@ -174,6 +178,7 @@ public class UserManagerServiceImpl implements UserManagerService {
             }
             updateUser.setPassword(password);
             userCurd.save(updateUser);
+            codeLogCurd.deleteById(code);
             return new ServiceMessage<>(ServiceEnum.SUCCESS, true);
         } else {
             return checkResult;
